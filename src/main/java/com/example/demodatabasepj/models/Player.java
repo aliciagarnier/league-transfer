@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "Player")
+@Table(name = "player")
 public class Player implements Serializable {
 
     private static final long serialVersionUid = 1L;
@@ -26,12 +26,26 @@ public class Player implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(name= "name")
     private String name;
+
+    @Column(name= "birth_date")
     private LocalDate birthdate;
+
+    @Column(name="position")
     private Position position;
+
+    @Column(name="foot")
     private Foot foot;
+
+    @Column()
     private final double height;
+
+    @Column(name="market_value")
     private BigDecimal marketValue;
+
+    @Column(name="nacionality")
     private String nacionality;
 
 
