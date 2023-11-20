@@ -3,17 +3,15 @@ package com.example.demodatabasepj.service;
 
 import com.example.demodatabasepj.dtos.ClubRecordDTO;
 
-import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
-import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
-import com.example.demodatabasepj.exceptions.club.InvalidClubException;
+import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
+import com.example.demodatabasepj.exception.club.DuplicatedClubException;
+import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 
 import java.util.List;
 import java.util.Objects;

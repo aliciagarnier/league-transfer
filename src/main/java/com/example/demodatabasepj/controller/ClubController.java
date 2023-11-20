@@ -1,9 +1,9 @@
 package com.example.demodatabasepj.controller;
 
 import com.example.demodatabasepj.dtos.ClubRecordDTO;
-import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
-import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
-import com.example.demodatabasepj.exceptions.club.InvalidClubException;
+import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
+import com.example.demodatabasepj.exception.club.DuplicatedClubException;
+import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.service.ClubService;
 import jakarta.validation.Valid;
@@ -32,10 +32,6 @@ public class ClubController {
     public ResponseEntity<Object> saveClub(@RequestBody @Valid ClubRecordDTO clubDTO) {
         Club clubModel = new Club();
         BeanUtils.copyProperties(clubDTO, clubModel);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addClub(
-                clubModel.getName(), clubModel.getStadium(), clubModel.getMarketValue()));
-
         try {
             Club new_club = service.addClub(clubModel);
             return ResponseEntity.status(HttpStatus.CREATED).body(new_club);
