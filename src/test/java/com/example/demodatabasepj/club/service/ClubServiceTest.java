@@ -1,9 +1,12 @@
 package com.example.demodatabasepj.club.service;
 
+
 import com.example.demodatabasepj.dtos.ClubRecordDTO;
+
 import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
 import com.example.demodatabasepj.exceptions.club.InvalidClubException;
+
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import com.example.demodatabasepj.service.ClubService;
@@ -15,9 +18,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+
 import java.math.BigDecimal;
 import java.util.Optional;
+
 import java.util.UUID;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
