@@ -1,26 +1,30 @@
 package com.example.demodatabasepj.club.service;
 
+import com.example.demodatabasepj.exception.club.DuplicatedClubException;
+import com.example.demodatabasepj.exception.club.InvalidClubException;
+
 import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
 import com.example.demodatabasepj.exceptions.club.InvalidClubException;
+
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import com.example.demodatabasepj.service.ClubService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 
 
 import java.math.BigDecimal;
+
+
 import java.util.List;
 import java.util.UUID;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 

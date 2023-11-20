@@ -1,4 +1,4 @@
-package com.example.demodatabasepj.exceptions.club;
+package com.example.demodatabasepj.exception.club;
 
 public class DuplicatedClubException extends RuntimeException{
 

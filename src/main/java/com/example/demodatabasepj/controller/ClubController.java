@@ -30,6 +30,10 @@ public class ClubController {
     public ResponseEntity<Object> saveClub(@RequestBody @Valid ClubRecordDTO clubDTO) {
         Club clubModel = new Club();
         BeanUtils.copyProperties(clubDTO, clubModel);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addClub(
+                clubModel.getName(), clubModel.getStadium(), clubModel.getMarketValue()));
+
         try {
             Club new_club = service.addClub(clubModel.getName(), clubModel.getStadium(), clubModel.getMv());
             return ResponseEntity.status(HttpStatus.CREATED).body(new_club);
