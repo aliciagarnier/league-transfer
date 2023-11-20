@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +37,7 @@ public class ClubController {
                 clubModel.getName(), clubModel.getStadium(), clubModel.getMarketValue()));
 
         try {
-            Club new_club = service.addClub(clubModel.getName(), clubModel.getStadium(), clubModel.getMv());
+            Club new_club = service.addClub(clubModel);
             return ResponseEntity.status(HttpStatus.CREATED).body(new_club);
         }catch (InvalidClubException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Club");
@@ -52,5 +54,33 @@ public class ClubController {
         }catch (ClubDoesNotExistsException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Club does not exists");
         }
+   }
+
+   @PutMapping("/club/{id}")
+    public ResponseEntity<Object> updateClub(@PathVariable(value = "id") UUID id,
+                                             @RequestBody @Valid ClubRecordDTO dto){
+        try {
+            Club club = service.updateClub(id, dto);
+            return ResponseEntity.status(HttpStatus.OK).body(club);
+        } catch (ClubDoesNotExistsException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Club not found.");
+        } catch (DuplicatedClubException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("update: Club already exists, try another name.");
+        }
+   }
+
+   @GetMapping("/club/{id}")
+    public ResponseEntity<Object> getOneClub(@PathVariable(value = "id") UUID id){
+       try {
+           Optional<Club> club = service.getOneClub(id);
+           return ResponseEntity.status(HttpStatus.OK).body(club);
+       } catch (IllegalArgumentException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Club not found");
+       }
+   }
+
+   @GetMapping("/club")
+    public ResponseEntity<List<Club>> getAllClub(){
+       return ResponseEntity.status(HttpStatus.OK).body(service.getAllClubs());
    }
 }
