@@ -1,15 +1,21 @@
 package com.example.demodatabasepj.service;
 
+
 import com.example.demodatabasepj.dtos.ClubRecordDTO;
-import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
-import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
-import com.example.demodatabasepj.exceptions.club.InvalidClubException;
+
+import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
+import com.example.demodatabasepj.exception.club.DuplicatedClubException;
+import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+<<<<<<< HEAD
+=======
 import org.springframework.stereotype.Service;
 
+>>>>>>> main
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,13 +25,15 @@ import java.util.UUID;
 @Service
 public class ClubService {
 
-    private ClubRepository repository;
+    private final ClubRepository repository;
 
     @Autowired
     public ClubService(ClubRepository repository){
         this.repository = repository;
     }
+
     public Club addClub(Club club){
+
 
         if(Objects.isNull(club.getName()) || club.getName().isEmpty()){
            throw new InvalidClubException("Club name must be valid");
