@@ -29,7 +29,7 @@ public class ClubController {
         Club clubModel = new Club();
         BeanUtils.copyProperties(clubDTO, clubModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(service.addClub(
-                clubModel.getName(), clubModel.getStadium(), clubModel.getMv()));
+                clubModel.getName(), clubModel.getStadium(), clubModel.getMarketValue()));
     }
 
 }

@@ -17,13 +17,13 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 
 @Entity
 @Table(name = "player")
 public class Player implements Serializable {
 
     private static final long serialVersionUid = 1L;
-
     public Player (String name, LocalDate birthdate, Position position, Foot foot,
                    double height, BigDecimal marketValue, String nacionality)
     {
@@ -31,9 +31,11 @@ public class Player implements Serializable {
         this.birthdate = birthdate;
         this.position = position;
         this.foot = foot;
+        this.height = height;
         this.marketValue = marketValue;
         this.nacionality = nacionality;
     }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,11 +43,11 @@ public class Player implements Serializable {
 
     @NotNull
     @Column(name= "name")
-    private final String name;
+    private String name;
 
     @Temporal(TemporalType.DATE)
     @Column(name= "birth_date")
-    private final LocalDate birthdate;
+    private LocalDate birthdate;
 
     @Enumerated(EnumType.STRING)
     @Column(name="position")
@@ -55,14 +57,14 @@ public class Player implements Serializable {
     private Foot foot;
 
     @Column(name="height")
-    private final double height;
+    private double height;
 
     @NotNull
     @Column(name="market_value")
     private BigDecimal marketValue;
 
     @Column(name="nacionality")
-    private final String nacionality;
+    private String nacionality;
 
 
 
