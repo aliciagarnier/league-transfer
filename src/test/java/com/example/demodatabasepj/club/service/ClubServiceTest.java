@@ -1,5 +1,6 @@
 package com.example.demodatabasepj.club.service;
 
+import com.example.demodatabasepj.exceptions.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exceptions.club.DuplicatedClubException;
 import com.example.demodatabasepj.exceptions.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Example;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,4 +74,19 @@ public class ClubServiceTest
                 service.addClub("Clube#01", null, null));
    }
 
+   @Test
+   @DisplayName("#deleteClub > When the club does not exists > Throw exception")
+    void deleteClubWhenClubDoesNotExists(){
+        UUID id = new UUID(1L, 1L);
+        Mockito.when(repository.existsById(id)).thenReturn(Boolean.FALSE);
+        assertThrows(ClubDoesNotExistsException.class, ()-> service.deleteClub(id));
+   }
+
+   @Test
+    @DisplayName("#deleteClub > When the club exists > Delete club")
+    void deleteClubWhenClubExists(){
+       UUID id = new UUID(1L, 1L);
+       Mockito.when(repository.existsById(id)).thenReturn(Boolean.TRUE);
+       service.deleteClub(id);
+   }
 }
