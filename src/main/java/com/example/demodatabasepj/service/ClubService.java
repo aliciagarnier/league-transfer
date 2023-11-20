@@ -5,15 +5,10 @@ import com.example.demodatabasepj.exceptions.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-
-import org.springframework.data.domain.Example;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-import java.util.List;
 import java.util.Objects;
 
 
@@ -40,5 +35,9 @@ public class ClubService {
         Club new_club = new Club(name, stadium, marketValue);
         repository.save(new_club);
         return new_club;
+    }
+
+    public boolean deleteClub(String name){
+        return Boolean.FALSE;
     }
 }
