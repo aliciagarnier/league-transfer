@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -24,6 +26,7 @@ public class Club implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "club_id")
     private UUID ID_club;
 
     @NotNull
@@ -36,6 +39,14 @@ public class Club implements Serializable {
     @Column(name = "market_value", nullable = true)
     private BigDecimal marketValue;
 
+    //Association between them is bidirectional
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+    @JoinTable(name = "league_club",
+              joinColumns = @JoinColumn(name = "club_id"),
+              inverseJoinColumns = @JoinColumn(name = "player_id")
+              )
+    List<Player> players;
 
     public Club(String name, String stadium, BigDecimal marketValue){
         this.name = name;
