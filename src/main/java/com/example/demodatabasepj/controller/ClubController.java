@@ -20,7 +20,7 @@ import java.util.UUID;
 @RestController
 public class ClubController {
 
-    ClubService service;
+    private final ClubService service;
 
     @Autowired
     public ClubController(ClubService service){

@@ -11,11 +11,8 @@ import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-<<<<<<< HEAD
-=======
 import org.springframework.stereotype.Service;
 
->>>>>>> main
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
