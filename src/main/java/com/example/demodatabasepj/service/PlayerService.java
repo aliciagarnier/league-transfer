@@ -1,11 +1,13 @@
 package com.example.demodatabasepj.service;
 
+import com.example.demodatabasepj.dtos.PlayerRecordDTO;
 import com.example.demodatabasepj.enumerator.Foot;
 import com.example.demodatabasepj.enumerator.Position;
 import com.example.demodatabasepj.exception.player.InvalidBirthDateException;
 import com.example.demodatabasepj.exception.player.InvalidPlayerException;
 import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.repository.PlayerRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,17 @@ public class PlayerService {
         Player new_player = new Player(name, birthdate, position, foot, height, marketValue, nacionality);
         return playerRepository.save(new_player);
     }
+
+
+    // How can i compare the equality of two players, for example?
+    public Player updatePlayer (PlayerRecordDTO playerRecordDTO, Player player) {
+
+        // Insert here validations.
+
+        BeanUtils.copyProperties(playerRecordDTO, player);
+        return  playerRepository.save(player);
+    }
+
 
     public List<Player> findAll() {
         return playerRepository.findAll();

@@ -32,7 +32,7 @@ public class PlayerServiceTest {
     }
 
     @Test
-    @DisplayName("#addPlayer > When only the necessary parameters are passed > Persist the player sucessfully")
+    @DisplayName("#addPlayer > When only the necessary parameters are passed > Persist the player successfully")
     void addPlayerWhenOnlyNameAndMarketValueArePassedPersistThePlayer () {
         assertDoesNotThrow(() -> service.addPlayer( "Player #1", LocalDate.of(1999, 5, 13),
                 Position.ATTACKINGMIDFIELD, Foot.LEFT, 1.85, BigDecimal.valueOf(19000000), "Brazilian"));
