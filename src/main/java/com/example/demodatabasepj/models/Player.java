@@ -10,6 +10,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.math.BigDecimal;
 
@@ -66,12 +67,8 @@ public class Player implements Serializable {
     @Column(name="nacionality")
     private String nacionality;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
-    @JoinTable(name = "league_club",
-            joinColumns = @JoinColumn(name = "player_id"),
-            inverseJoinColumns = @JoinColumn(name = "club_id")
-    )
-    List<Club> clubs;
+    @OneToMany(mappedBy = "player")
+    private Set<PlayerClub> playerClub;
 
 
 

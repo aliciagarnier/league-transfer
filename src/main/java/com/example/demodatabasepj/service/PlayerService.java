@@ -48,7 +48,7 @@ public class PlayerService {
     }
 
 
-    // How can i compare the equality of two players, for example?
+    // How can I compare the equality of two players, for example?
     public Player updatePlayer (PlayerRecordDTO playerRecordDTO, Player player) {
 
         // Insert here validations.
@@ -62,10 +62,12 @@ public class PlayerService {
         return playerRepository.findAll();
     }
     public void delete(Player player) {
+
         playerRepository.delete(player);
     }
 
     public Optional<Player> findById(UUID id) {
+
         return playerRepository.findById(id);
     }
 
