@@ -26,7 +26,6 @@ public class PlayerController {
     @PostMapping("/player")
     public ResponseEntity<Object> savePlayer(@RequestBody @Valid PlayerRecordDTO playerRecordDTO) {
         try {
-
             return ResponseEntity.status(HttpStatus.CREATED).body(playerService.addPlayer(playerRecordDTO.name(),
                     playerRecordDTO.birthdate(), playerRecordDTO.position(), playerRecordDTO.foot(),
                     playerRecordDTO.height(), playerRecordDTO.marketValue(), playerRecordDTO.nacionality()));

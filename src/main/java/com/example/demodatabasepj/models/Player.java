@@ -9,13 +9,14 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.math.BigDecimal;
 
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -36,9 +37,9 @@ public class Player implements Serializable {
         this.nacionality = nacionality;
     }
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "player_id")
     private UUID id;
 
     @NotNull
@@ -65,6 +66,9 @@ public class Player implements Serializable {
 
     @Column(name="nacionality")
     private String nacionality;
+
+    @OneToMany(mappedBy = "player")
+    private Set<PlayerClub> playerClub;
 
 
 
