@@ -1,0 +1,28 @@
+div.section{
+    display: flex;
+}
+
+
+div.right_section{
+    margin: 2rem;
+}
+
+
+div.cards{
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+div.card{
+    margin: 0.5rem;
+}
+
+div.filter{
+    display: grid;
+}
+
+div.filter_field{
+    margin: 0.5rem;
+}
