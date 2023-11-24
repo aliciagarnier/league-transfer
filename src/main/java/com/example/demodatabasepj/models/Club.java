@@ -9,10 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,7 +43,9 @@ public class Club implements Serializable {
     private Set<PlayerClub> playerClub;
 
 
-    public Club(String name, String stadium, BigDecimal marketValue){
+    public Club(String name, String stadium, BigDecimal marketValue)
+    {
+        this.playerClub = new HashSet<>();
         this.name = name;
         this.stadium = stadium;
         this.marketValue = marketValue;

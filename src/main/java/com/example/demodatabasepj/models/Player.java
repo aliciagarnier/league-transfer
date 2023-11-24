@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class Player implements Serializable {
     public Player (String name, LocalDate birthdate, Position position, Foot foot,
                    double height, BigDecimal marketValue, String nacionality)
     {
+        this.playerClub = new HashSet<>();
         this.name = name;
         this.birthdate = birthdate;
         this.position = position;
