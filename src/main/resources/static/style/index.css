@@ -1,0 +1,12 @@
+div.tabela {
+    margin: 2rem;
+}
+
+div.header{
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+div.section{
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
