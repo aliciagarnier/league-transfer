@@ -28,13 +28,11 @@ public class PlayerClub implements Serializable {
     private Club club;
 
 
-    @MapsId("club_id")
+    @MapsId("player_id")
     @ManyToOne(optional = false)
     @JoinColumn(name = "player_id")
     private Player player;
 
-    @Column(name = "date")
-    private LocalDate date;
 
 
 }
