@@ -1,0 +1,44 @@
+div.section{
+    display: flex;
+    gap: 1rem;
+}
+
+
+div.right_section{
+    margin: 2rem;
+}
+
+
+div.cards{
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+div.card{
+    margin: 0.5rem;
+}
+
+div.filter_field{
+    margin: 0.5rem;
+}
+
+div.card-body{
+    display: grid;
+    gap: .5rem;
+}
+
+div.card img{
+    width: 50%;
+    height: 50%;
+    align-self: center;
+    margin-top: 1rem;
+}
+
+div.opts{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}

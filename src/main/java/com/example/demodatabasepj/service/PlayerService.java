@@ -58,8 +58,11 @@ public class PlayerService {
     }
 
 
-    public List<Player> findAll() {
-        return playerRepository.findAll();
+    public List<Player> findAll(String keyword) {
+        if(Objects.isNull(keyword)){
+            return playerRepository.findAll();
+        }
+        return playerRepository.searchAllByName(keyword);
     }
     public void delete(Player player) {
 
@@ -70,5 +73,18 @@ public class PlayerService {
 
         return playerRepository.findById(id);
     }
+
+
+    public long countPlayers(){
+        return playerRepository.count();
+    }
+
+    public long countPlayersByName(String keyword){
+        if(Objects.isNull(keyword)){
+            return playerRepository.count();
+        }
+        return playerRepository.countAllByName(keyword);
+    }
+
 
 }
