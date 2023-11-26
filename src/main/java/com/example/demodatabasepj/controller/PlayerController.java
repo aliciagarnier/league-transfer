@@ -1,6 +1,7 @@
 package com.example.demodatabasepj.controller;
 
 import com.example.demodatabasepj.dtos.PlayerRecordDTO;
+import com.example.demodatabasepj.enumerator.Position;
 import com.example.demodatabasepj.exception.player.InvalidBirthDateException;
 import com.example.demodatabasepj.exception.player.InvalidPlayerException;
 import com.example.demodatabasepj.models.Player;
@@ -8,15 +9,17 @@ import com.example.demodatabasepj.service.PlayerService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 
 import java.util.UUID;
 
-@RestController
-@RequestMapping("/api")
+@Controller
 public class PlayerController {
     private final PlayerService playerService;
     public PlayerController(PlayerService playerService) {
@@ -24,22 +27,22 @@ public class PlayerController {
         this.playerService = playerService;
     }
     @PostMapping("/player")
-    public ResponseEntity<Object> savePlayer(@RequestBody @Valid PlayerRecordDTO playerRecordDTO) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(playerService.addPlayer(playerRecordDTO.name(),
-                    playerRecordDTO.birthdate(), playerRecordDTO.position(), playerRecordDTO.foot(),
-                    playerRecordDTO.height(), playerRecordDTO.marketValue(), playerRecordDTO.nacionality()));
-
-        } catch (InvalidPlayerException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid player");
-        } catch (InvalidBirthDateException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The given birthdate is invalid.");
+    public ModelAndView savePlayer(@Valid PlayerRecordDTO playerRecordDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+           ModelAndView mv = new ModelAndView("redirect:/player");
+           return mv;
         }
-
+        playerService.addPlayer(playerRecordDTO.name(),
+                playerRecordDTO.birthdate(), playerRecordDTO.position(), playerRecordDTO.foot(),
+                playerRecordDTO.height(), playerRecordDTO.marketValue(), playerRecordDTO.nacionality());
+        return new ModelAndView("redirect:/player");
     }
     @GetMapping("/player")
-    public ResponseEntity<List<Player>> getAllPlayers () {
-        return ResponseEntity.status(HttpStatus.OK).body(playerService.findAll());
+    public ModelAndView getAllPlayers () {
+        ModelAndView mv = new ModelAndView("player");
+        mv.addObject("players", playerService.findAll());
+        mv.addObject("posEnum", Position.values());
+        return mv;
     }
 
     @GetMapping("/player/{id}")

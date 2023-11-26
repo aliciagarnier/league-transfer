@@ -11,15 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class ApplicationController {
 
-    @GetMapping
-    String getHome(Model model){
-        model.addAttribute("something", "teste2222");
+    @GetMapping("/")
+    String getHome(){
         return "index";
     }
 
-    @GetMapping("/player")
-    public String getPlayerPage(){
-        return "player";
-    }
+
 
 }
