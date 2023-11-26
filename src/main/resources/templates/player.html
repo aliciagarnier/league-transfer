@@ -67,78 +67,91 @@
 
 <div class="section">
 
-
-
-    <div class="filter">
-
-        Filtre jogadores
-        <div class="filter_field">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Clube</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Filtre jogadores</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
+        <div class="offcanvas-body">
+
+            <div class="filter">
+
+                <div class="filter_field">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Clube</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
 
 
-        <div class="filter_field">
-            <label for="customRange3" class="form-label">Idade</label>
-            <input type="range" class="form-range" min="10" max="80" step="1" id="customRange3">
-        </div>
+                <div class="filter_field">
+                    <label for="customRange3" class="form-label">Idade</label>
+                    <input type="range" class="form-range" min="10" max="80" step="1" id="customRange3">
+                </div>
 
-        <div class="filter_field">
-            <label for="customRange1" class="form-label">Altura</label>
-            <input type="range" class="form-range" id="customRange1">
-        </div>
+                <div class="filter_field">
+                    <label for="customRange1" class="form-label">Altura</label>
+                    <input type="range" class="form-range" id="customRange1">
+                </div>
 
-        <div class="filter_field">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Posicao</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
+                <div class="filter_field">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Posicao</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
 
-        <div class="filter_field">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                    Pe direito
-                </label>
+                <div class="filter_field">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Pe direito
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter_field">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Pe esquerdo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filter_field">
+                    <label for="customRange4" class="form-label">Market Value</label>
+                    <input type="range" class="form-range" id="customRange4">
+                </div>
+
+
+                <div class="filter_field">
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Cidadania</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+
+
             </div>
+
         </div>
-
-        <div class="filter_field">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Pe esquerdo
-                </label>
-            </div>
-        </div>
-
-        <div class="filter_field">
-            <label for="customRange4" class="form-label">Market Value</label>
-            <input type="range" class="form-range" id="customRange4">
-        </div>
-
-
-        <div class="filter_field">
-            <select class="form-select" aria-label="Default select example">
-                <option selected>Cidadania</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-
-
     </div>
+
+
 
     <div class="right_section">
         <div class="opts">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Utilizar filtro avançado</button>
+
+            <span th:text="'Jogadores encontrados: ' + ${playerQtd}"></span>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Adicionar novo jogador
@@ -153,10 +166,10 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="/player">
+                            <form method="POST" th:action="@{/player}" >
                                 <div class="mb-3">
                                     <label for="InputName" class="form-label">Nome</label>
-                                    <input name="name" type="text" class="form-control" id="InputName" aria-describedby="emailHelp">
+                                    <input  type="text" class="form-control" id="InputName" aria-describedby="emailHelp">
                                 </div>
                                 <div class="mb-3">
                                     <label for="birthday">Data de nascimento: </label>
@@ -204,8 +217,7 @@
 
                                 <div class="mb-3">
                                     <span>Nacionalidade: </span>
-                                    <select name="nacionality" class="form-select" aria-label="Default select example">
-                                        <option selected>Selecione</option>
+                                    <select  name="nacionality" class="form-select" aria-label="Default select example">
                                         <option value="Brazil">Brazil</option>
                                         <option value="America">America</option>
                                         <option value="Canada">Canada</option>
@@ -228,7 +240,7 @@
                     <div class="container-fluid">
                         <a class="navbar-brand"></a>
                         <form class="d-flex" role="search" th:action="@{/player}">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <input name="keyword" th:value="${keyword}" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
