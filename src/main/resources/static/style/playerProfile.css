@@ -1,0 +1,70 @@
+
+div.card-body{
+    display: grid;
+    gap: 1rem;
+}
+
+div.section{
+    box-shadow:2px 3px 13px 4px rgba(0, 0, 0, 0.1) ;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    margin: auto ;
+}
+
+div.player_header{
+    display: flex;
+    justify-content: space-between;
+}
+
+div.player_pic{
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+div.player_club_info{
+    display: grid;
+    gap: .5rem;
+    justify-items: center;
+}
+
+div.player_pic_info{
+    display: grid;
+}
+
+div.player_pic_info span{
+    font-size: 13px;
+}
+
+div.pic_mv {
+    display: grid;
+    justify-items: center;
+}
+
+div.pic_mv p{
+    margin-top: 1rem;
+    border-radius: 5px;
+}
+
+div.side_buttons{
+    display: grid;
+    position: absolute;
+    margin: 2rem;
+    gap: 1rem;
+    justify-items: start;
+}
+
+div.admin_side_buttons{
+    margin-top: 4rem;
+    display: grid;
+    gap: 1rem;
+}
+
+div.tb_sec{
+    margin-top: .5rem;
+}
+
+div.tabela h2{
+    margin-bottom: 1rem;
+}

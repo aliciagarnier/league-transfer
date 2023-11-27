@@ -59,38 +59,53 @@ public class PlayerController {
     }
 
     @GetMapping("/player/{id}")
-    public ResponseEntity<Object> getOnePlayer(@PathVariable(value="id") UUID id) {
+    public ModelAndView getOnePlayer(@PathVariable(value="id") UUID id) {
         Optional<Player> player = playerService.findById(id);
-            if(player.isEmpty())
-            {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
-            }
 
-         return ResponseEntity.status(HttpStatus.OK).body(player.get());
+        if(player.isEmpty())
+        {
+            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
+            return new ModelAndView("redirect:/player");
+        }
+         //return ResponseEntity.status(HttpStatus.OK).body(player.get());
+        ModelAndView mv = new ModelAndView("playerProfile");
+        mv.addObject("posEnum", Position.values());
+        mv.addObject("player", player.get());
+        return mv;
+
+
+
     }
     @PutMapping("/player/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id,
-                                                @RequestBody @Valid PlayerRecordDTO playerRecordDTO) {
+    public ModelAndView updatePlayer(@PathVariable(value = "id") UUID id,
+                                                 @Valid PlayerRecordDTO playerRecordDTO) {
         Optional<Player> optionalPlayer = playerService.findById(id);
 
         if(optionalPlayer.isPresent())
         {
-            return ResponseEntity.status(HttpStatus.OK).body(playerService.
-                    updatePlayer(playerRecordDTO, optionalPlayer.get()));
+            ModelAndView mv = new ModelAndView("/player/" + id);
+            mv.addObject("player", playerService.updatePlayer(playerRecordDTO, optionalPlayer.get()));
+            //return ResponseEntity.status(HttpStatus.OK).body(playerService
+            // updatePlayer(playerRecordDTO, optionalPlayer.get()));
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
+        return new ModelAndView("redirect:/player/" + id);
+        //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
     }
 
     @DeleteMapping("/player/{id}")
-    public ResponseEntity<Object> deletePlayer(@PathVariable(value="id") UUID id) {
+    public ModelAndView deletePlayer(@PathVariable(value="id") UUID id) {
         Optional<Player> optionalPlayer = playerService.findById(id);
 
         if(optionalPlayer.isPresent()) {
+            ModelAndView mv = new ModelAndView("redirect:/player");
             playerService.delete(optionalPlayer.get());
-            return ResponseEntity.status(HttpStatus.OK).body("Player deleted successfully");
+            return mv;
+            //return ResponseEntity.status(HttpStatus.OK).body("Player deleted successfully");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
+
+        return new ModelAndView("redirect:/player/"+ id);
+        //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
     }
 
 

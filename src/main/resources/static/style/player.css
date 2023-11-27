@@ -36,9 +36,16 @@ div.card img{
     margin-top: 1rem;
 }
 
+div.opts_section{
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
 div.opts{
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 1rem;
 }
