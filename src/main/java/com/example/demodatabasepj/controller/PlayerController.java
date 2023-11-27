@@ -69,6 +69,7 @@ public class PlayerController {
         }
          //return ResponseEntity.status(HttpStatus.OK).body(player.get());
         ModelAndView mv = new ModelAndView("playerProfile");
+        mv.addObject("posEnum", Position.values());
         mv.addObject("player", player.get());
         return mv;
 
@@ -76,17 +77,20 @@ public class PlayerController {
 
     }
     @PutMapping("/player/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id,
-                                                @RequestBody @Valid PlayerRecordDTO playerRecordDTO) {
+    public ModelAndView updatePlayer(@PathVariable(value = "id") UUID id,
+                                                 @Valid PlayerRecordDTO playerRecordDTO) {
         Optional<Player> optionalPlayer = playerService.findById(id);
 
         if(optionalPlayer.isPresent())
         {
-            return ResponseEntity.status(HttpStatus.OK).body(playerService.
-                    updatePlayer(playerRecordDTO, optionalPlayer.get()));
+            ModelAndView mv = new ModelAndView("/player/" + id);
+            mv.addObject("player", playerService.updatePlayer(playerRecordDTO, optionalPlayer.get()));
+            //return ResponseEntity.status(HttpStatus.OK).body(playerService
+            // updatePlayer(playerRecordDTO, optionalPlayer.get()));
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
+        return new ModelAndView("redirect:/player/" + id);
+        //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
     }
 
     @DeleteMapping("/player/{id}")

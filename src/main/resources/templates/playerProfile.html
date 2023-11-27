@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/player" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle active" href="/player" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Jogadores
                         </a>
                         <ul class="dropdown-menu">
@@ -93,15 +93,74 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal aatitle</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar informações de jogador</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form th:action="@{/player/{id}(id=${player.id})}" th:method="PUT" >
+                    <div class="mb-3">
+                        <label for="InputName" class="form-label">Nome</label>
+                        <input th:value="${player.name}" name="name" type="text" class="form-control" id="InputName" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthday">Data de nascimento: </label>
+                        <input th:value="${player.birthdate}" name="birthdate" type="date" id="birthday">
+                    </div>
+                    <div class="mb-3">
+                        <span>Posição: </span>
+                        <select name="position" class="form-select" aria-label="Default select example">
+                            <option selected th:value="${player.position}" th:text="${player.position}"></option>
+                            <option th:each="position: ${posEnum}"
+                                    th:value="${position}" th:text="${position}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" value="RIGHT" type="radio" name="foot" id="flexRadioDefault11" checked>
+                            <label class="form-check-label" for="flexRadioDefault11">
+                                Pé direito
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" value="LEFT" type="radio" name="foot" id="flexRadioDefault22">
+                            <label class="form-check-label" for="flexRadioDefault22">
+                                Pé esquerdo
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume">Definir altura:</label>
+                        <input th:value="${player.height}" name="height" type="range" id="volume" min="1.3" step="0.010" max="2.5">
+
+                        <p id="volumeValue">Altura:  <span id="volumeSpan"></span></p>
+                    </div>
+                    <div class="mb-3">
+
+                    </div>
+                    <div class="mb-3">
+                        <span>Valor atual de mercado: </span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input th:value="${player.marketValue}" name="marketValue"  type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <span>Nacionalidade: </span>
+                        <select  name="nacionality" class="form-select" aria-label="Default select example">
+                            <option value="Brazil">Brazil</option>
+                            <option value="America">America</option>
+                            <option value="Canada">Canada</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
             </div>
         </div>
     </div>
@@ -284,5 +343,15 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    // JavaScript to update the displayed value as the range input changes
+    const volumeInput = document.getElementById("volume");
+    const volumeSpan = document.getElementById("volumeSpan");
+    volumeSpan.textContent = volumeInput.value + "m";
+    volumeInput.addEventListener("input", function() {
+        volumeSpan.textContent = volumeInput.value + "m";
+    });
+</script>
+
 </body>
 </html>
