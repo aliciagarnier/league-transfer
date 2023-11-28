@@ -49,3 +49,14 @@ div.opts{
     align-items: center;
     gap: 1rem;
 }
+
+div.left_portion{
+    display: flex;
+    gap: 2rem;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+#count {
+    font-weight: bold;
+}

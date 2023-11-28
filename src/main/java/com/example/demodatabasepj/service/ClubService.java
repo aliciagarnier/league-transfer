@@ -30,11 +30,6 @@ public class ClubService {
     }
 
     public Club addClub(Club club){
-
-
-        if(Objects.isNull(club.getName()) || club.getName().isEmpty()){
-           throw new InvalidClubException("Club name must be valid");
-        }
         Club duplicatedClub = repository.findClubByName(club.getName());
 
         if (!Objects.isNull(duplicatedClub)){
@@ -77,7 +72,17 @@ public class ClubService {
         return repository.findById(id);
     }
 
-    public List<Club> getAllClubs(){
-        return repository.findAll();
+    public List<Club> getAllClubs(String keyword){
+        if(Objects.isNull(keyword)){
+            return repository.findAll();
+        }
+        return repository.searchAllByName(keyword);
+    }
+
+    public Long countClubsByName(String keyword){
+        if(Objects.isNull(keyword)){
+            return repository.count();
+        }
+        return repository.countAllByName(keyword);
     }
 }

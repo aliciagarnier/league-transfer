@@ -32,10 +32,10 @@
                             Jogadores
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Todos os jogadores</a></li>
+                            <li><a class="dropdown-item" href="/player">Todos os jogadores</a></li>
                             <li><a class="dropdown-item" href="#">Jogadores mais valorizados</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Clubes</a></li>
+                            <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -49,7 +49,7 @@
                             <li><a class="dropdown-item" href="#">Ligas</a></li>
                             <li><a class="dropdown-item" href="#">Partidas</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Clubes</a></li>
+                            <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -67,10 +67,17 @@
 
 <div class="opts_section">
     <div class="opts">
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Utilizar filtro avançado</button>
+        <div class="left_portion">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Utilizar filtro avançado</button>
 
-        <span th:text="'Jogadores encontrados: ' + ${playerQtd}"></span>
+            <span>
+             Jogadores encontrados:
+             <span id="count" th:text="${playerQtd}">
+             </span>
+         </span>
+        </div>
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Adicionar novo jogador
