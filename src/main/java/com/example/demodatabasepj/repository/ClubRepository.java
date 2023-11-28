@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -13,4 +14,11 @@ public interface ClubRepository extends JpaRepository<Club, UUID> {
 
     @Query("SELECT club FROM Club club WHERE club.name = ?1")
     Club findClubByName(String name);
+
+
+    @Query("SELECT club FROM Club club WHERE club.name LIKE %?1%")
+    List<Club> searchAllByName(String name);
+
+    @Query("SELECT COUNT(club) FROM Club club WHERE club.name LIKE %?1%")
+    long countAllByName(String name);
 }
