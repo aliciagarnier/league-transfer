@@ -1,6 +1,8 @@
 div.section{
     display: flex;
     gap: 1rem;
+    justify-content: center;
+    box-shadow: none;
 }
 
 
@@ -13,7 +15,7 @@ div.cards{
     margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    max-width: 1280px;
 }
 
 div.card{
@@ -59,4 +61,16 @@ div.left_portion{
 
 #count {
     font-weight: bold;
+}
+
+div.nav_section{
+    margin-top: -3rem;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+
+div.sort_opt form{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-right: 5rem;
 }
