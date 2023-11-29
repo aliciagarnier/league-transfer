@@ -9,6 +9,7 @@ import com.example.demodatabasepj.service.ClubService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -98,13 +100,38 @@ public class ClubController {
         return mv;
    }
 
-   @GetMapping("/club")
+    @RequestMapping("/club")
     public ModelAndView getAllClub(@Param("keyword") String keyword){
         ModelAndView mv =  new ModelAndView("club");
-        mv.addObject("clubs", service.getAllClubs(keyword));
-        mv.addObject("clubQtd", service.countClubsByName(keyword));
-        //return ResponseEntity.status(HttpStatus.OK).body(service.getAllClubs());
+        Page<Club> page = service.getAllClubs(keyword, 1,"marketValue", "desc");
 
+
+        mv.addObject("clubs", page.getContent());
+        mv.addObject("clubQtd", service.countClubsByName(keyword));
+        mv.addObject("currentPage", 1);
+        mv.addObject("totalPages", page.getTotalPages());
+        mv.addObject("sortField", "marketValue");
+        mv.addObject("sortDir", "desc");
+        //return ResponseEntity.status(HttpStatus.OK).body(service.getAllClubs());
+        return mv;
+    }
+
+   @GetMapping("/club/page/{pageNumber}")
+    public ModelAndView getAllClub(@Param("keyword") String keyword, @Param("sortField") String sortField,
+                                   @Param("sortDir") String sortDir, @PathVariable("pageNumber") int currentPage){
+        ModelAndView mv =  new ModelAndView("club");
+        Page<Club> page = service.getAllClubs(keyword, currentPage, sortField, sortDir);
+
+
+        mv.addObject("clubs", page.getContent());
+        mv.addObject("clubQtd", service.countClubsByName(keyword));
+        mv.addObject("currentPage", currentPage);
+        mv.addObject("totalPages", page.getTotalPages());
+        mv.addObject("sortField", sortField);
+        mv.addObject("sortDir", sortDir);
+
+
+        //return ResponseEntity.status(HttpStatus.OK).body(service.getAllClubs());
        return mv;
    }
 }

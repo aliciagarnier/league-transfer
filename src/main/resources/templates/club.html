@@ -66,6 +66,29 @@
 </div>
 
 <div class="opts_section">
+    <div class="sort_opt">
+        <form th:action="@{/club/page/1}" >
+            <div class="mb-3">
+                <span th:text=" ${sortDir != 'asc'} ? 'Ordem: decrescente' : 'Ordem: crescente' "></span>
+                <select name="sortDir" class="form-select" aria-label="Default select example">
+                    <option value="asc">Crescente</option>
+                    <option value="desc">Decrescente</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <span th:text=" ${sortField != null} ? 'Parâmetro: ' + ${sortField} : 'Parâmetro não definido' "></span>
+                <select name="sortField" class="form-select" aria-label="Default select example">
+                    <option value="name">Nome</option>
+                    <option value="marketValue">Market Value</option>
+                    <option value="stadium">Estádio</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-secondary">Salvar</button>
+        </form>
+    </div>
+
+
     <div class="opts">
         <div class="left_portion">
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
@@ -132,6 +155,7 @@
                     <a class="navbar-brand"></a>
                     <form class="d-flex" role="search" th:action="@{/club}">
                         <input name="keyword" th:value="${keyword}" class="form-control me-2" type="search" placeholder="Digite o nome de um clube" aria-label="Search">
+
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                     </form>
                 </div>
@@ -188,7 +212,7 @@
                     <h5 class="card-title" th:text="${club.name}"></h5>
                     <span th:text=" ${club.stadium != ''} ? 'Estádio: ' + ${club.stadium} : 'Estádio: Não possui' " class="card-text"></span>
                     <span class="card-text" th:text=" ${club.marketValue != null} ? 'Valor de mercado: $' + ${club.marketValue} : 'Valor de mercado não definido' "></span>
-                    <a th:href="@{'club/' + ${club.ID_club}}" class="btn btn-primary">Detalhes</a>
+                    <a th:href="@{'/club/' + ${club.ID_club}}" class="btn btn-primary">Detalhes</a>
                 </div>
             </div>
 
@@ -198,7 +222,49 @@
 
     </div>
 
+
+
 </div>
+
+<div class="section nav_section">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link"  aria-label="Previous" th:if="${currentPage > 1}"
+                   th:href="@{'/club/page/' + ${currentPage - 1} + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+
+                <a class="page-link"  aria-label="Previous" th:unless="${currentPage > 1}" href="#">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+
+                <a class="page-link" th:if="${i != currentPage}"  th:href="@{'/club/page/' + ${i}  + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    [[${i}]]
+                </a>
+
+                <a class="page-link active" th:unless="${i != currentPage}" href="#">
+                    [[${i}]]
+                </a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link"  aria-label="Next" th:if="${currentPage < totalPages}"
+                   th:href="@{'/club/page/' + ${currentPage + 1} + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+                <a class="page-link" href="#" aria-label="Next" th:unless="${currentPage < totalPages}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 
 
 <div class="container">

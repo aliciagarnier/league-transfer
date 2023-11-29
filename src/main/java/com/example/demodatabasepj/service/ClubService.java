@@ -11,6 +11,10 @@ import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,11 +76,23 @@ public class ClubService {
         return repository.findById(id);
     }
 
-    public List<Club> getAllClubs(String keyword){
-        if(Objects.isNull(keyword)){
-            return repository.findAll();
+    public Page<Club> getAllClubs(String keyword, int pageNumber, String sortField, String sortDir){
+        /*if(Objects.isNull(sortDir) || Objects.isNull(sortField) || Objects.isNull(keyword)){
+            Sort sort = Sort.by("marketValue").descending();
+            Pageable pageable = PageRequest.of(pageNumber - 1 , 8, sort);
+            return repository.findAll(pageable);
+        }*/
+
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNumber - 1 , 8, sort);
+
+        if (Objects.isNull(keyword)){
+            return repository.findAll(pageable);
         }
-        return repository.searchAllByName(keyword);
+
+        return repository.searchAllByName(keyword, pageable);
     }
 
     public Long countClubsByName(String keyword){

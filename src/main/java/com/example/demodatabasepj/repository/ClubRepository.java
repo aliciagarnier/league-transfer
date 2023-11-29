@@ -1,6 +1,8 @@
 package com.example.demodatabasepj.repository;
 
 import com.example.demodatabasepj.models.Club;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,9 +17,8 @@ public interface ClubRepository extends JpaRepository<Club, UUID> {
     @Query("SELECT club FROM Club club WHERE club.name = ?1")
     Club findClubByName(String name);
 
-
     @Query("SELECT club FROM Club club WHERE club.name LIKE %?1%")
-    List<Club> searchAllByName(String name);
+    Page<Club> searchAllByName(String name, Pageable pageable);
 
     @Query("SELECT COUNT(club) FROM Club club WHERE club.name LIKE %?1%")
     long countAllByName(String name);
