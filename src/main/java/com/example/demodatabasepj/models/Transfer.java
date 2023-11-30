@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
+
 
 
 @Getter @Setter
