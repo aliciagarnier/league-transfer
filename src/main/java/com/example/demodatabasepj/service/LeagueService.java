@@ -2,12 +2,17 @@ package com.example.demodatabasepj.service;
 
 
 import com.example.demodatabasepj.dtos.LeagueRecordDTO;
+import com.example.demodatabasepj.enumerator.Region;
 import com.example.demodatabasepj.exception.league.DuplicatedLeagueException;
 import com.example.demodatabasepj.exception.league.LeagueDoesNotExistsException;
 import com.example.demodatabasepj.models.League;
 import com.example.demodatabasepj.repository.LeagueRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,9 +72,22 @@ public class LeagueService {
         return repository.findById(id);
     }
 
-    public List<League> getAllLeagues(){
-        return repository.findAll();
+    public Page<League> getAllLeaguesByNameAndRegion(String keyword, int pageNumber,
+                                                     String sortField, String sortDir, String region){
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1 , 20, sort);
+
+
+        if (Objects.isNull(keyword)){
+            return repository.findAllByRegion(region, pageable);
+        }
+
+        return repository.searchAllByNameAndRegion(keyword, region, pageable);
     }
 
+    public Long countLeagueByName(String keyword){
+        return repository.countAllByName(keyword);
+    }
 
 }

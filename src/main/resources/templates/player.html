@@ -65,15 +65,42 @@
     </nav>
 </div>
 
+
+
+
 <div class="opts_section">
+    <div class="sort_opt ">
+        <form th:action="@{/player/page/1}" >
+            <div class="mb-3">
+                <span th:text=" ${sortDir != 'asc'} ? 'Ordem: decrescente' : 'Ordem: crescente' "></span>
+                <select name="sortDir" class="form-select" aria-label="Default select example">
+                    <option value="asc">Crescente</option>
+                    <option value="desc">Decrescente</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <span th:text=" ${sortField != null} ? 'Parâmetro: ' + ${sortField} : 'Parâmetro não definido' "></span>
+                <select name="sortField" class="form-select" aria-label="Default select example">
+                    <option value="name">Nome</option>
+                    <option value="marketValue">Market Value</option>
+                    <option value="birthdate">Idade</option>
+                    <option value="height">Altura</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-secondary">Salvar</button>
+        </form>
+    </div>
+
+
     <div class="opts">
-        <div class="left_portion">
+        <div class="left_portion ">
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Utilizar filtro avançado</button>
 
-            <span>
+            <span >
              Jogadores encontrados:
-             <span id="count" th:text="${playerQtd}">
+             <span class="img-thumbnail" id="count" th:text="${playerQtd}">
              </span>
          </span>
         </div>
@@ -161,7 +188,7 @@
             </div>
         </div>
 
-        <div class="search_box">
+        <div class="search_box img-thumbnail">
             <nav class="navbar bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand"></a>
@@ -289,21 +316,41 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+                <a class="page-link"  aria-label="Previous" th:if="${currentPage > 1}"
+                   th:href="@{'/player/page/' + ${currentPage - 1} + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+
+                <a class="page-link"  aria-label="Previous" th:unless="${currentPage > 1}" href="#">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+            <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+
+                <a class="page-link" th:if="${i != currentPage && i != 0}"  th:href="@{'/player/page/' + ${i}  + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    [[${i}]]
+                </a>
+
+                <a class="page-link active" th:unless="${i != currentPage}" href="#">
+                    [[${i}]]
+                </a>
+            </li>
+
             <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+                <a class="page-link"  aria-label="Next" th:if="${currentPage < totalPages}"
+                   th:href="@{'/player/page/' + ${currentPage + 1} + '?sortDir=' + ${sortDir} + '&sortField=' + ${sortField}}">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+
+                <a class="page-link" href="#" aria-label="Next" th:unless="${currentPage < totalPages}">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
 </div>
+
 
 
 <div class="container">

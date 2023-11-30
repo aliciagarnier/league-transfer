@@ -45,12 +45,12 @@ public class ClubController {
         BeanUtils.copyProperties(clubDTO, clubModel);
         try {
             Club new_club = service.addClub(clubModel);
-            return new ModelAndView("redirect:/club");
+            return new ModelAndView("redirect:/club/" + new_club.getID_club());
 
 
             //return ResponseEntity.status(HttpStatus.CREATED).body(new_club);
         }catch (DuplicatedClubException e){
-            return new ModelAndView("redirect:/club/DuplicatedClub");
+            return new ModelAndView("redirect:/club");
             //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Club already exists");
         }
     }
