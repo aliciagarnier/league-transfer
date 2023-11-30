@@ -54,9 +54,8 @@ public class PlayerService {
         // Insert here validations.
 
         BeanUtils.copyProperties(playerRecordDTO, player);
-        return  playerRepository.save(player);
+        return playerRepository.save(player);
     }
-
 
     public List<Player> findAll(String keyword) {
         if(Objects.isNull(keyword)){
@@ -64,13 +63,12 @@ public class PlayerService {
         }
         return playerRepository.searchAllByName(keyword);
     }
-    public void delete(Player player) {
 
+    public void delete(Player player) {
         playerRepository.delete(player);
     }
 
     public Optional<Player> findById(UUID id) {
-
         return playerRepository.findById(id);
     }
 

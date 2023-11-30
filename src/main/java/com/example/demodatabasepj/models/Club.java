@@ -38,10 +38,11 @@ public class Club implements Serializable {
     private BigDecimal marketValue;
 
     //Association between them is bidirectional
-
     @OneToMany(mappedBy = "club")
     private Set<PlayerClub> playerClub;
 
+    @OneToMany
+    private Set<Transfer> transfers;
 
     public Club(String name, String stadium, BigDecimal marketValue)
     {

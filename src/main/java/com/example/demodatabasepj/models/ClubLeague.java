@@ -1,25 +1,24 @@
 package com.example.demodatabasepj.models;
 
 
-import com.example.demodatabasepj.models.pk.PlayerClubPK;
+import com.example.demodatabasepj.models.pk.ClubLeaguePK;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Getter;
 
 import java.io.Serializable;
 
+
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 
 @Entity
-@Table(name = "player_club")
-public class PlayerClub implements Serializable {
-
-   @EmbeddedId
-   private PlayerClubPK playerClubPK; // Primary key.
+@Table(name = "club_league")
+public class ClubLeague implements Serializable {
+    @EmbeddedId
+    private ClubLeaguePK id;
 
     @MapsId("club_id")
     @ManyToOne(optional = false)
@@ -27,11 +26,10 @@ public class PlayerClub implements Serializable {
     private Club club;
 
 
-    @MapsId("player_id")
+    @MapsId("league_id")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "player_id")
-    private Player player;
-
+    @JoinColumn(name = "league_id")
+    private League league;
 
 
 }
