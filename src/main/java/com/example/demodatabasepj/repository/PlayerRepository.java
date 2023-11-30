@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface PlayerRepository extends JpaRepository<Player, UUID> {
 
     @Query("SELECT player FROM Player player WHERE player.name LIKE %?1%")
-        public List<Player> searchAllByName(String name);
+        public Page<Player> searchAllByName(String name, Pageable pageable);
 
     @Query("SELECT COUNT(player) FROM Player player WHERE player.name LIKE %?1%")
         public long countAllByName(String name);
