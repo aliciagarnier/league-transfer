@@ -27,6 +27,7 @@ public class TransferService {
     private final TransferRepository transferRepository;
 
     public Transfer addTransfer (Player player, Club join, Club left, LocalDate date, BigDecimal fee) {
+
         // validations here.
 
         Transfer newTransfer = new Transfer(player, join, left, date, fee);
