@@ -5,7 +5,6 @@ import com.example.demodatabasepj.dtos.ClubRecordDTO;
 
 import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
-import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -82,7 +80,6 @@ public class ClubService {
             Pageable pageable = PageRequest.of(pageNumber - 1 , 8, sort);
             return repository.findAll(pageable);
         }*/
-
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
@@ -95,7 +92,7 @@ public class ClubService {
         return repository.searchAllByName(keyword, pageable);
     }
 
-    public Long countClubsByName(String keyword){
+    public Long countClubsByName(String keyword){ // versatil
         if(Objects.isNull(keyword)){
             return repository.count();
         }

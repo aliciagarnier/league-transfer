@@ -58,29 +58,26 @@ public class PlayerService {
         // Insert here validations.
 
         BeanUtils.copyProperties(playerRecordDTO, player);
-        return  playerRepository.save(player);
+        return playerRepository.save(player);
     }
 
-
+  
     public Page<Player> findAll(String keyword, int pageNumber, String sortField, String sortDir) {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
         Pageable pageable = PageRequest.of(pageNumber - 1 , 8, sort);
-
-
 
         if(Objects.isNull(keyword)){
             return playerRepository.findAll(pageable);
         }
         return playerRepository.searchAllByName(keyword, pageable);
     }
-    public void delete(Player player) {
 
+    public void delete(Player player) {
         playerRepository.delete(player);
     }
 
     public Optional<Player> findById(UUID id) {
-
         return playerRepository.findById(id);
     }
 

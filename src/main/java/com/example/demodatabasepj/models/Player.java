@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -71,6 +70,10 @@ public class Player implements Serializable {
 
     @OneToMany(mappedBy = "player")
     private Set<PlayerClub> playerClub;
+
+    @OneToMany(mappedBy = "player")
+    private Set<Transfer> transfers;
+
 
 
 
