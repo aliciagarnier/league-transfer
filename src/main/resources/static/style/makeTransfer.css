@@ -1,0 +1,52 @@
+div.section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+div.player_card{
+    display: flex;
+    gap: .5rem;
+}
+
+
+
+div.player_card_body{
+    display: grid;
+    justify-items: start;
+}
+
+div.player_card_body span{
+    font-size: 13px;
+}
+
+span.mv{
+    font-weight: bold;
+}
+
+img.brazao{
+    width: 25%;
+}
+
+div.card_row{
+    display: flex;
+    align-items: center;
+    box-shadow: -3px 2px 1px 0 rgba(0, 0, 0, 0.1);
+}
+div.card_table{
+    display: grid;
+    gap: .5rem;
+    justify-items: center;
+}
+
+div.card-body{
+    max-height: 300px;
+    overflow: auto;
+}
+
+div.card-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

@@ -1,5 +1,6 @@
 package com.example.demodatabasepj.repository;
 
+import com.example.demodatabasepj.models.Club;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,7 @@ public interface PlayerRepository extends JpaRepository<Player, UUID> {
     @Query("SELECT COUNT(player) FROM Player player WHERE player.name LIKE %?1%")
         public long countAllByName(String name);
 
+
+    @Query("SELECT pc.club FROM PlayerClub pc WHERE pc.player.id = ?1 AND YEAR (pc.playerClubPK.date) = YEAR(CURRENT_DATE)")
+        public Optional<Club> getCurrentPlayerClubById(UUID id);
 }

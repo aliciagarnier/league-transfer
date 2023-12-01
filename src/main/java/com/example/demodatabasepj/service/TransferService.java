@@ -8,6 +8,10 @@ import com.example.demodatabasepj.models.*;
 import com.example.demodatabasepj.repository.TransferRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -56,5 +60,24 @@ public class TransferService {
     public void deleteTransfer(Transfer transfer) {
         transferRepository.delete(transfer);
     }
+
+    public Page<Transfer> getAllTransfersWithFilter(String keyword, int pageNumber, String sortField, String sortDir)
+    {
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNumber - 1 , 20, sort);
+
+        if(Objects.isNull(keyword)){
+            return transferRepository.findAll(pageable);
+        }
+
+        return transferRepository.searchAllByPlayerNameOrJoinNameOrLeftName(keyword, pageable);
+    }
+
+    public Long countAllTransfersByPlayerNameOrJoinNameOrLeftName(String keyword){
+        return transferRepository.countAllByPlayerNameOrJoinNameOrLeftName(keyword);
+    }
+
 
 }

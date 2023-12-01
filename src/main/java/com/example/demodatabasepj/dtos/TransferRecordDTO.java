@@ -10,6 +10,5 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record TransferRecordDTO(@NotNull Player player, @NotNull Club join, @NotNull Club left, LocalDate date, @NotNull
-                                BigDecimal fee) {
+public record TransferRecordDTO(@NotNull Club join, LocalDate date, @NotNull BigDecimal fee) {
 }

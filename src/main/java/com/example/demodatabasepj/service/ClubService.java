@@ -92,6 +92,21 @@ public class ClubService {
         return repository.searchAllByName(keyword, pageable);
     }
 
+    public Page<Club> getAllClubsByName(String keyword, int pageNumber, String sortField, String sortDir){
+        /*if(Objects.isNull(sortDir) || Objects.isNull(sortField) || Objects.isNull(keyword)){
+            Sort sort = Sort.by("marketValue").descending();
+            Pageable pageable = PageRequest.of(pageNumber - 1 , 8, sort);
+            return repository.findAll(pageable);
+        }*/
+        Sort sort = Sort.by(sortField);
+        sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+
+        Pageable pageable = PageRequest.of(pageNumber - 1 , 6, sort);
+
+        return repository.searchAllByName(keyword, pageable);
+    }
+
+
     public Long countClubsByName(String keyword){ // versatil
         if(Objects.isNull(keyword)){
             return repository.count();

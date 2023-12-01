@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,27 +54,32 @@ public class LeagueController {
     }
 
     @DeleteMapping("/league/{id}")
-    public ResponseEntity<Object> deleteLeague(@PathVariable(value = "id")UUID id){
+    public ModelAndView deleteLeague(@PathVariable(value = "id")UUID id){
         try {
             leagueService.deleteLeague(id);
-            return ResponseEntity.status(HttpStatus.OK).body("League deleted successfully.");
+            return new ModelAndView("redirect:/league");
+            //return ResponseEntity.status(HttpStatus.OK).body("League deleted successfully.");
         }catch (ClubDoesNotExistsException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("League does not exists");
+            return new ModelAndView("redirect:/league");
+            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("League does not exists");
         }
     }
 
     @PutMapping("/league/{id}")
-    public ResponseEntity<Object> updateLeague(@PathVariable(value = "id") UUID id,
-                                               @RequestBody @Valid LeagueRecordDTO leagueDto){
+    public ModelAndView updateLeague(@PathVariable(value = "id") UUID id,
+                                                @Valid LeagueRecordDTO leagueDto){
         try {
             League league = leagueService.updateLeague(id, leagueDto);
-            return ResponseEntity.status(HttpStatus.OK).body(league);
+            ModelAndView mv = new ModelAndView("redirect:/league/"+ id);
+            mv.addObject("league", league);
+            return mv;
+            //return ResponseEntity.status(HttpStatus.OK).body(league);
         } catch (ClubDoesNotExistsException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("League not found.");
+            return new ModelAndView("redirect:/league");
+            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("League not found.");
         } catch (DuplicatedClubException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("update: League already exists, try another name.");
+            return new ModelAndView("redirect:/league/" + id);
+            //return ResponseEntity.status(HttpStatus.BAD_REQUEST) .body("update: League already exists, try another name.");
         }
     }
 
