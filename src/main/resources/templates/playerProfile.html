@@ -39,7 +39,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Transferências</a>
+                        <a class="nav-link" href="/transfer">Transferências</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -207,7 +207,6 @@
 
                <div class="player_pic_info">
                    <p class="h1" th:text="${player.name}"></p>
-                   <span class="card-text" th:text="'Nacionalidade: ' + ${player.nacionality}"></span>
                    <span class="card-text" th:text="'Posição: ' + ${player.position}"></span>
                    <span class="card-text" th:text="'Pé dominante: ' + ${player.foot}"></span>
                    <span class="card-text" th:text="'Altura: ' + ${player.height} + 'm'"> </span>
@@ -219,6 +218,8 @@
            <div class="player_club_info">
                <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
                <p class="h4">Player Club FC</p>
+               <a class="btn btn-primary" th:href="@{'/player/transfer/' + ${player.id}}" role="button">Transferir</a>
+
            </div>
 
        </div>

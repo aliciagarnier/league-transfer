@@ -5,6 +5,7 @@ import com.example.demodatabasepj.enumerator.Foot;
 import com.example.demodatabasepj.enumerator.Position;
 import com.example.demodatabasepj.exception.player.InvalidBirthDateException;
 import com.example.demodatabasepj.exception.player.InvalidPlayerException;
+import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.repository.PlayerRepository;
 import org.springframework.beans.BeanUtils;
@@ -91,6 +92,10 @@ public class PlayerService {
             return playerRepository.count();
         }
         return playerRepository.countAllByName(keyword);
+    }
+
+    public Optional<Club> getCurrentClub(UUID id){
+        return playerRepository.getCurrentPlayerClubById(id);
     }
 
 
