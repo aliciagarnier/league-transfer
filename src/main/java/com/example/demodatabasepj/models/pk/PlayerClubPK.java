@@ -29,8 +29,9 @@ public class PlayerClubPK implements Serializable {
     private UUID player_id;
 
     @EqualsAndHashCode.Include
-    @Column(name = "date")
-    private LocalDate date;
+    @Column(name = "date_in")
+    private LocalDate date_in;
+
 
 
 }

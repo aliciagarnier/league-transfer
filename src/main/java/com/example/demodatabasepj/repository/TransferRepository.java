@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -22,5 +24,9 @@ public interface TransferRepository extends JpaRepository<Transfer, UUID> {
             "OR transfer.join.name LIKE %?1%" +
             "OR transfer.left.name LIKE %?1%")
     Long countAllByPlayerNameOrJoinNameOrLeftName(String keyword);
+
+    //Selecionar a ultima transferencia
+    @Query("SELECT MAX(transfer.date) FROM Transfer transfer")
+    Optional<LocalDate> findLastTransfer();
 
 }

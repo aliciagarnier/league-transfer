@@ -1,6 +1,7 @@
 package com.example.demodatabasepj.controller;
 
 
+import com.example.demodatabasepj.dtos.ClubRecordDTO;
 import com.example.demodatabasepj.dtos.TransferRecordDTO;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Player;
@@ -85,9 +86,16 @@ public class TransferController {
 
     }
 
-    @PostMapping
-    public ModelAndView makeTransfer(){
+    @PostMapping("/transfer")
+    public ModelAndView createTransfer(@Valid TransferRecordDTO transferRecordDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            System.out.println(transferRecordDTO.player_id());
+            return new ModelAndView("redirect:/transfer/error");
+        }
+        System.out.println(transferRecordDTO.player_id());
 
+        Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
+        return new ModelAndView("redirect:/transfer/" + new_transfer.getId());
     }
 
 
