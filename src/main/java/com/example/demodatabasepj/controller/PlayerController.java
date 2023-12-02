@@ -91,6 +91,7 @@ public class PlayerController {
     @GetMapping("/player/{id}")
     public ModelAndView getOnePlayer(@PathVariable(value="id") UUID id) {
         Optional<Player> player = playerService.findById(id);
+        Optional<Club> currentClubOptional = playerService.getCurrentClub(id);
 
         if(player.isEmpty())
         {
@@ -101,6 +102,9 @@ public class PlayerController {
         ModelAndView mv = new ModelAndView("playerProfile");
         mv.addObject("posEnum", Position.values());
         mv.addObject("player", player.get());
+        mv.addObject("currentDate", LocalDate.now());
+        currentClubOptional.ifPresent(club -> mv.addObject("currentClub", club));
+
         return mv;
 
 

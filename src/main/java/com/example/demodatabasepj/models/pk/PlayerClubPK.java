@@ -1,5 +1,6 @@
 package com.example.demodatabasepj.models.pk;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;

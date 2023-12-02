@@ -26,8 +26,8 @@ public interface TransferRepository extends JpaRepository<Transfer, UUID> {
     Long countAllByPlayerNameOrJoinNameOrLeftName(String keyword);
 
     //Selecionar a ultima transferencia
-    @Query("SELECT MAX(transfer.date) FROM Transfer transfer")
-    Optional<LocalDate> findLastTransfer();
+    @Query("SELECT MAX(transfer.date) FROM Transfer transfer WHERE transfer.player.id = ?1 GROUP BY transfer.player.id")
+    Optional<LocalDate> findLastPlayerTransfer(UUID id);
 
     @Query("SELECT transfer FROM Transfer transfer WHERE transfer.player.id = ?1 " +
             "AND transfer.join.ID_club = ?2 " +
