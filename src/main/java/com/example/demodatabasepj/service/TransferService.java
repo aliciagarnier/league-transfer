@@ -67,13 +67,13 @@ public class TransferService {
 //        Optional<Club> club_in = clubRepository.findById(club_join_id);
 //        Optional<Club> club_out_opt;
 
-        if (!clubService.existClub(transferRecordDTO.getClub_join_id()) ||
-                !clubService.existClub(transferRecordDTO.getClub_left_id()))
+        if (!clubService.existClub(transferRecordDTO.club_join_id()) ||
+                !clubService.existClub(transferRecordDTO.club_left_id()))
         {
             throw new ClubDoesNotExistsException("Club does not exist.");
         }
 
-        if (!playerService.existPlayer(transferRecordDTO.getPlayer_id()))
+        if (!playerService.existPlayer(transferRecordDTO.player_id()))
         {
             throw new PlayerNotFoundException("Player not found"); // existe não encontrado???
         }
@@ -98,10 +98,9 @@ public class TransferService {
 //            }
 //        }
 
-         if(transferRecordDTO.getClub_join_id().equals(transferRecordDTO.getClub_left_id())) {
+         if(transferRecordDTO.club_join_id().equals(transferRecordDTO.club_left_id())) {
              throw new SameClubTransferException("Cannot transfer to the same club");
          }
-
 
         //Checar se data recebida eh maior que Localdate.now ou menor que data da ultima transferencia.
         //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada (???)
@@ -134,7 +133,7 @@ public class TransferService {
 
         PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
                 transferRecordDTO.player_id(),
-                transferRecordDTO.getClub_join_id(),
+                transferRecordDTO.club_join_id(),
                 transferRecordDTO.date());
 
         Optional<PlayerClub>  player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
@@ -152,10 +151,10 @@ public class TransferService {
         //Buscar a tupla que possui clube_out == dto.club_out, jogador == dto.player e date_out == null
 
         Optional<PlayerClub> player_club_out = playerClubRepository
-                .findPlayerClubByClubAndPlayerAndDate_outNull(transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_join_id());
+                .findPlayerClubByClubAndPlayerAndDate_outNull(transferRecordDTO.player_id(), transferRecordDTO.club_join_id());
         if(player_club_out.isPresent()){
             playerClubRepository.updatePlayerClubByDate_out(
-                    transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_left_id(), transferRecordDTO.date());
+                    transferRecordDTO.player_id(), transferRecordDTO.club_left_id(), transferRecordDTO.date());
 
         }
 
@@ -170,10 +169,13 @@ public class TransferService {
         return transferRepository.save(transfer);
     }
 
-    public Transfer updateTransfer(TransferRecordDTO transferRecordDTO, Transfer transfer) {
+    public Transfer updateTransfer(TransferRecordDTO transferRecordDTO, Transfer transfer) { // Quando vamos usar esse método?
 
-        // validations here.
-        // one transfer is equal to other one if the value, date, and player are the same.
+        if (transferRepository.findTransferByPlayerDateJoinAndLeftClub(transferRecordDTO.player_id(), transferRecordDTO.club_join_id(),
+                transferRecordDTO.club_left_id(), transferRecordDTO.date()).isPresent())
+        {
+            throw new DuplicatedTransferException("This transfer already exists."); // Vale para o caso// que nenhuma alteração é realizada.
+        }
 
         BeanUtils.copyProperties(transferRecordDTO, transfer);
         return transferRepository.save(transfer);
@@ -212,7 +214,7 @@ public class TransferService {
     }
 
 
-    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId){
+    public Transfer makePlayerTransfer (UUID playerId, UUID club_inId, UUID club_outId){
         Optional<Player> player = playerRepository.findById(playerId);
         if (player.isEmpty()){
             throw new PlayerNotFoundException("Player does not exists");
@@ -234,7 +236,6 @@ public class TransferService {
 
 
         //Criar tupla com data de entrada no novo clube
-
 
         return transferRepository.save(transfer);
     }

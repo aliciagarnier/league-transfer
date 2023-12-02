@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@Repository // querys
+@Repository
 public interface TransferRepository extends JpaRepository<Transfer, UUID> {
 
     @Query("SELECT transfer FROM Transfer transfer WHERE transfer.player.name LIKE %?1%" +
@@ -20,7 +20,7 @@ public interface TransferRepository extends JpaRepository<Transfer, UUID> {
             "OR transfer.left.name LIKE %?1%")
     Page<Transfer> searchAllByPlayerNameOrJoinNameOrLeftName(String keyword, Pageable pageable);
 
-    @Query("SELECT COUNT(transfer) FROM Transfer  transfer WHERE transfer.player.name LIKE %?1%" +
+    @Query("SELECT COUNT(transfer) FROM Transfer transfer WHERE transfer.player.name LIKE %?1%" +
             "OR transfer.join.name LIKE %?1%" +
             "OR transfer.left.name LIKE %?1%")
     Long countAllByPlayerNameOrJoinNameOrLeftName(String keyword);
@@ -28,5 +28,14 @@ public interface TransferRepository extends JpaRepository<Transfer, UUID> {
     //Selecionar a ultima transferencia
     @Query("SELECT MAX(transfer.date) FROM Transfer transfer")
     Optional<LocalDate> findLastTransfer();
+
+    @Query("SELECT transfer FROM Transfer transfer WHERE transfer.player.id = ?1 " +
+            "AND transfer.join.ID_club = ?2 " +
+            "AND transfer.left.ID_club = ?3 " +
+            "AND transfer.date = ?4")
+    Optional<Transfer> findTransferByPlayerDateJoinAndLeftClub (UUID PlayerID, UUID clubJoin, UUID clubOut, LocalDate date);
+
+
+
 
 }
