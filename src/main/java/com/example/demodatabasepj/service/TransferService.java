@@ -54,15 +54,11 @@ public class TransferService {
             throw new SameClubTransferException("Cannot transfer to both null clubs");
         }
 
-
-    
-
        //Forma burra temporária
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());
         UUID club_join_id = transferRecordDTO.club_join_id(); //UUID.fromString(transferRecordDTO.club_join_id());
         UUID club_left_id = transferRecordDTO.club_left_id(); //UUID.fromString(transferRecordDTO.club_left_id());
         //fim da forma burra temporaria
-
 
         //validar dados
         Optional<Player> player = playerRepository.findById(player_id);
@@ -85,94 +81,96 @@ public class TransferService {
 
 
         //se existir club de saida
-        if(!Objects.isNull(club_left_id)){
+        if(!Objects.isNull(club_left_id)) {
             club_out_opt = clubRepository.findById(club_left_id);
             // se existir clube de saida > garantir que nao sejam iguais
-            if(club_out_opt.isPresent()){
-                if(!Objects.isNull(club_in) && club_out_opt.get().getID_club().equals(club_in.getID_club())){
+            if (club_out_opt.isPresent()) {
+                if (!Objects.isNull(club_in) && club_out_opt.get().getID_club().equals(club_in.getID_club())) {
                     throw new SameClubTransferException("Cannot transfer to the same club");
                 }
                 club_out = club_out_opt.get();
             }
-
-
-
-        //Checar se data recebida eh maior que Localdate.now ou menor que data da ultima transferencia.
-        //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada (???)
-        // e nunca depois do dia atual, ou seja, nao consigo fazer transferencia no passado(em relacao a ultima transferencia)
-        // nem no futuro.
-        //desse modo as transferencias devem ser inseridas na ordem que ocorreram. (??)
-
-        LocalDate received_date = transferRecordDTO.date();
-        Optional<LocalDate> last_transfer_date = transferRepository.findLastPlayerTransfer(player_id); //buscar data da ultima transf do jogador
-        if(last_transfer_date.isEmpty()){ // se nao existir, atribuir data minima
-            last_transfer_date = Optional.of(LocalDate.MIN);
-        }
-
-        if(received_date.isAfter(LocalDate.now()) || received_date.isBefore(last_transfer_date.get()))
-        {
-            throw new InvalidTransferDateException("Invalid date of transfer!");
         }
 
 
-        // SETAR EM PLAYER_CLUB A DATA DA TRANSF E DATE OUT NULL -- DONE
-        // NA PROXIMA TRANSF ATUALIZAR DATE OUT
-        //OU SEJA, BUSCAR A ULTIMA TUPLA PELA DATA MAIS RECENTE EM PLAYER CLUB E ATUALIZAR DATE OUT
-        // ALEM DISSO, CRIAR UMA NOVA TUPLA EM PLAYER CLUB COM DATE IN FORNECIDO PELO DTO.
+            //Checar se data recebida eh maior que Localdate.now ou menor que data da ultima transferencia.
+            //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada (???)
+            // e nunca depois do dia atual, ou seja, nao consigo fazer transferencia no passado(em relacao a ultima transferencia)
+            // nem no futuro.
+            //desse modo as transferencias devem ser inseridas na ordem que ocorreram. (??)
 
-        //Buscando tupla em PlayerClub relation > clube de entrada
-
-        if(!Objects.isNull(club_in)){
-            PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
-                    player_id,
-                    club_join_id,
-                    transferRecordDTO.date());
-            Optional<PlayerClub>  player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
-            //Criar tupla em player_club se ela nao existir
-            if (player_club_in.isEmpty()) {
-                PlayerClub new_playerClubTuple = new PlayerClub(playerClubPK_club_in, club_in, player.get(), null);
-                playerClubRepository.save(new_playerClubTuple);
-            } else {
-                // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
-                throw new DuplicatedTransferException("Transfer already exists!");
+            LocalDate received_date = transferRecordDTO.date();
+            Optional<LocalDate> last_transfer_date = transferRepository.findLastPlayerTransfer(player_id); //buscar data da ultima transf do jogador
+            if (last_transfer_date.isEmpty()) { // se nao existir, atribuir data minima
+                last_transfer_date = Optional.of(LocalDate.MIN);
             }
-          
+
+            if (received_date.isAfter(LocalDate.now()) || received_date.isBefore(last_transfer_date.get())) {
+                throw new InvalidTransferDateException("Invalid date of transfer!");
+            }
 
 
-        //Se existir clube de saida > atualizar date_out para data da transferencia > se nao > whatever
-        //Buscando tupla em PlayerClub relation > clube de saida >
-        //Buscar a tupla que possui clube_out == dto.club_out, jogador == dto.player e date_out == null
+            // SETAR EM PLAYER_CLUB A DATA DA TRANSF E DATE OUT NULL -- DONE
+            // NA PROXIMA TRANSF ATUALIZAR DATE OUT
+            //OU SEJA, BUSCAR A ULTIMA TUPLA PELA DATA MAIS RECENTE EM PLAYER CLUB E ATUALIZAR DATE OUT
+            // ALEM DISSO, CRIAR UMA NOVA TUPLA EM PLAYER CLUB COM DATE IN FORNECIDO PELO DTO.
 
-        Optional<PlayerClub> player_club_out = playerClubRepository
-                .findPlayerClubByClubAndPlayerAndDate_outNull(transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_join_id());
-        if(player_club_out.isPresent()){
-            playerClubRepository.updatePlayerClubByDate_out(
-                    transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_left_id(), transferRecordDTO.date());
+            //Buscando tupla em PlayerClub relation > clube de entrada
 
-        }
+            if (!Objects.isNull(club_in)) {
+                PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
+                        player_id,
+                        club_join_id,
+                        transferRecordDTO.date());
+                Optional<PlayerClub> player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
+                //Criar tupla em player_club se ela nao existir
+                if (player_club_in.isEmpty()) {
+                    PlayerClub new_playerClubTuple = new PlayerClub(playerClubPK_club_in, club_in, player.get(), null);
+                    playerClubRepository.save(new_playerClubTuple);
+                } else {
+                    // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
+                    throw new DuplicatedTransferException("Transfer already exists!");
+                }
+            }
 
-        //Realizar transferencia se tudo ok
-        Transfer transfer = new Transfer();
-        transfer.setDate(transferRecordDTO.date());
-        transfer.setFee(transferRecordDTO.fee());
-        transfer.setPlayer(player.get());
-        transfer.setJoin(club_in);
-        transfer.setLeft(club_out);
 
-        return transferRepository.save(transfer);
-    }
+                //Se existir clube de saida > atualizar date_out para data da transferencia > se nao > whatever
+                //Buscando tupla em PlayerClub relation > clube de saida >
+                //Buscar a tupla que possui clube_out == dto.club_out, jogador == dto.player e date_out == null
 
-    public Transfer updateTransfer(TransferRecordDTO transferRecordDTO, Transfer transfer) {
+                Optional<PlayerClub> player_club_out = playerClubRepository
+                        .findPlayerClubByClubAndPlayerAndDate_outNull(transferRecordDTO.player_id(), transferRecordDTO.club_join_id());
+                if (player_club_out.isPresent()) {
+                    playerClubRepository.updatePlayerClubByDate_out(
+                            transferRecordDTO.player_id(), transferRecordDTO.club_left_id(), transferRecordDTO.date());
+
+                }
+
+                //Realizar transferencia se tudo ok
+                Transfer transfer = new Transfer();
+                transfer.setDate(transferRecordDTO.date());
+                transfer.setFee(transferRecordDTO.fee());
+                transfer.setPlayer(player.get());
+                transfer.setJoin(club_in);
+                transfer.setLeft(club_out);
+
+                return transferRepository.save(transfer);
+            }
+
+     public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) {
 
         // validations here.
-        // one transfer is equal to other one if the value, date, and player are the same.
+         // one transfer is equal to other one if the value, date, and player are the same.
 
-        BeanUtils.copyProperties(transferRecordDTO, transfer);
-        return transferRepository.save(transfer);
+         BeanUtils.copyProperties(transferRecordDTO, transfer);
+         return transferRepository.save(transfer);
     }
-    public List<Transfer> findAllTransfers() {
+
+
+    public List<Transfer> findAllTransfers () {
         return transferRepository.findAll();
     }
+
 
     public Optional<Transfer> findTransferById(UUID id) {
         if(Objects.isNull(id)) {
@@ -204,7 +202,7 @@ public class TransferService {
     }
 
 
-    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId){
+    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId) {
         Optional<Player> player = playerRepository.findById(playerId);
         if (player.isEmpty()){
             throw new PlayerNotFoundException("Player does not exists");
