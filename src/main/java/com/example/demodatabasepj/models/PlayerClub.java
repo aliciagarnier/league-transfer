@@ -22,6 +22,7 @@ public class PlayerClub implements Serializable {
    @EmbeddedId
    private PlayerClubPK playerClubPK; // Primary key.
 
+
     @MapsId("club_id")
     @ManyToOne(optional = false)
     @JoinColumn(name = "club_id")

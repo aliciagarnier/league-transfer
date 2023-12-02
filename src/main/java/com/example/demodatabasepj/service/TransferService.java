@@ -42,7 +42,9 @@ public class TransferService {
     private final PlayerClubRepository playerClubRepository;
 
     public Transfer addTransfer (TransferRecordDTO transferRecordDTO) {
-        //TODO NAO DEIXAR TRANSFERIR SE OS 2 CLUBES FOREM NULO
+        if(Objects.isNull(transferRecordDTO.club_join_id()) && Objects.isNull(transferRecordDTO.club_left_id())){
+            throw new SameClubTransferException("Cannot transfer to both null clubs");
+        }
 
         //forma burra temporaria
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());
@@ -52,27 +54,35 @@ public class TransferService {
 
         //validar dados
         Optional<Player> player = playerRepository.findById(player_id);
-        Optional<Club> club_in = clubRepository.findById(club_join_id);
+        Club club_in = null;
         Club club_out = null;
+        Optional<Club> club_in_opt;
         Optional<Club> club_out_opt;
 
         if (player.isEmpty()){
             throw new PlayerNotFoundException("Player not found");
         }
-        if(club_in.isEmpty()){
-            throw new ClubDoesNotExistsException("Club not found");
+
+        //se existir club de entrada
+        if(!Objects.isNull(club_join_id)){
+            club_in_opt = clubRepository.findById(club_join_id);
+            if(club_in_opt.isPresent()){
+                club_in = club_in_opt.get();
+            }
         }
+
 
         //se existir club de saida
         if(!Objects.isNull(club_left_id)){
             club_out_opt = clubRepository.findById(club_left_id);
             // se existir clube de saida > garantir que nao sejam iguais
             if(club_out_opt.isPresent()){
-                if(club_out_opt.get().getID_club().equals(club_in.get().getID_club())){
+                if(!Objects.isNull(club_in) && club_out_opt.get().getID_club().equals(club_in.getID_club())){
                     throw new SameClubTransferException("Cannot transfer to the same club");
                 }
                 club_out = club_out_opt.get();
             }
+
         }
 
 
@@ -82,7 +92,7 @@ public class TransferService {
         // nem no futuro.
         //desse modo as transferencias devem ser inseridas na ordem que ocorreram.
         LocalDate received_date = transferRecordDTO.date();
-        Optional<LocalDate> last_transfer_date = transferRepository.findLastTransfer(); //buscar data da ultima transf
+        Optional<LocalDate> last_transfer_date = transferRepository.findLastPlayerTransfer(player_id); //buscar data da ultima transf do jogador
         if(last_transfer_date.isEmpty()){ // se nao existir, atribuir data minima
             last_transfer_date = Optional.of(LocalDate.MIN);
         }
@@ -100,19 +110,22 @@ public class TransferService {
 
 
         //Buscando tupla em PlayerClub relation > clube de entrada
-        PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
-                player_id,
-                club_join_id,
-                transferRecordDTO.date());
-        Optional<PlayerClub>  player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
-        //Criar tupla em player_club se ela nao existir
-        if(player_club_in.isEmpty()){
-            PlayerClub new_playerClubTuple = new PlayerClub(playerClubPK_club_in, club_in.get(), player.get(), null);
-            playerClubRepository.save(new_playerClubTuple);
-        } else{
-            // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
-            throw new DuplicatedTransferException("Transfer already exists!");
+        if(!Objects.isNull(club_in)){
+            PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
+                    player_id,
+                    club_join_id,
+                    transferRecordDTO.date());
+            Optional<PlayerClub>  player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
+            //Criar tupla em player_club se ela nao existir
+            if (player_club_in.isEmpty()) {
+                PlayerClub new_playerClubTuple = new PlayerClub(playerClubPK_club_in, club_in, player.get(), null);
+                playerClubRepository.save(new_playerClubTuple);
+            } else {
+                // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
+                throw new DuplicatedTransferException("Transfer already exists!");
+            }
         }
+
 
         //Se existir clube de saida > atualizar date_out para data da transferencia > se nao > whatever
         //Buscando tupla em PlayerClub relation > clube de saida >
@@ -131,8 +144,8 @@ public class TransferService {
         Transfer transfer = new Transfer();
         transfer.setDate(transferRecordDTO.date());
         transfer.setFee(transferRecordDTO.fee());
-        transfer.setJoin(club_in.get());
         transfer.setPlayer(player.get());
+        transfer.setJoin(club_in);
         transfer.setLeft(club_out);
 
         return transferRepository.save(transfer);
