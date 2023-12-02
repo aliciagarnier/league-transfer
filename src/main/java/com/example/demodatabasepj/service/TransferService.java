@@ -42,6 +42,8 @@ public class TransferService {
     private final PlayerClubRepository playerClubRepository;
 
     public Transfer addTransfer (TransferRecordDTO transferRecordDTO) {
+        //TODO NAO DEIXAR TRANSFERIR SE OS 2 CLUBES FOREM NULO
+
         //forma burra temporaria
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());
         UUID club_join_id = transferRecordDTO.club_join_id(); //UUID.fromString(transferRecordDTO.club_join_id());
