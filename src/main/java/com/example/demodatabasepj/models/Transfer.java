@@ -8,8 +8,6 @@ import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.*;
 
-
-
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
@@ -19,7 +17,6 @@ import lombok.*;
 @Entity
 @Table(name = "transfer")
 public class Transfer implements Serializable {
-
 
     public Transfer (Player player, Club join, Club left, LocalDate date, BigDecimal fee) {
         this.player = player;
