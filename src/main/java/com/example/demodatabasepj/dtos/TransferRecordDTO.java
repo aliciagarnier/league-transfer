@@ -1,13 +1,7 @@
 package com.example.demodatabasepj.dtos;
 
-import com.example.demodatabasepj.models.Club;
-
-
-
-import com.example.demodatabasepj.models.Player;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

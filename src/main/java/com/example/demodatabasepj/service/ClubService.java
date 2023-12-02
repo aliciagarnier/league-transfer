@@ -69,9 +69,17 @@ public class ClubService {
         return clubModel;
     }
 
-
-    public Optional<Club> getOneClub(UUID id){
+    public Optional<Club> getOneClub(UUID id) {
         return repository.findById(id);
+    }
+
+    public Boolean existClub(UUID id) {
+        if(getOneClub(id).isPresent())
+        {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
     }
 
     public Page<Club> getAllClubs(String keyword, int pageNumber, String sortField, String sortDir){

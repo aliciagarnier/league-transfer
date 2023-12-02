@@ -20,6 +20,14 @@ import java.util.*;
 @Table(name = "club")
 public class Club implements Serializable {
 
+    public Club(String name, String stadium, BigDecimal marketValue)
+    {
+        this.playerClub = new HashSet<>();
+        this.name = name;
+        this.stadium = stadium;
+        this.marketValue = marketValue;
+    }
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -37,19 +45,31 @@ public class Club implements Serializable {
     @Column(name = "market_value", nullable = true)
     private BigDecimal marketValue;
 
-    //Association between them is bidirectional
+    // Association between them is bidirectional.
     @OneToMany(mappedBy = "club")
     private Set<PlayerClub> playerClub;
 
-    @OneToMany
-    private Set<Transfer> transfers;
+    // all transfers that one player join this club.
+    @OneToMany(mappedBy = "join")
+    private Set<Transfer> joinTransfers;
 
-    public Club(String name, String stadium, BigDecimal marketValue)
-    {
-        this.playerClub = new HashSet<>();
-        this.name = name;
-        this.stadium = stadium;
-        this.marketValue = marketValue;
-    }
+    //all transfers that one player left this club.
+    @OneToMany(mappedBy = "left")
+    private Set<Transfer> leftTransfers;
+
+    // all matches that this club was a host team.
+    @OneToMany(mappedBy = "hostTeam")
+    private Set<Match> hostMatches;
+
+    // all matches that this club was a guest team.
+    @OneToMany(mappedBy = "guestTeam")
+    private Set<Match> guestMatches;
+
+    // all goals that a player on the club scored.
+    @OneToMany(mappedBy = "club")
+    private Set<MatchGoals> goals;
+
+
+
 
 }

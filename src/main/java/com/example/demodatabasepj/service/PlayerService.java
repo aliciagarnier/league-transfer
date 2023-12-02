@@ -30,7 +30,6 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-
     // Como saber se o player existe?
 
     public Player addPlayer(String name, LocalDate birthdate, Position position, Foot foot, double height,
@@ -80,6 +79,15 @@ public class PlayerService {
 
     public Optional<Player> findById(UUID id) {
         return playerRepository.findById(id);
+    }
+
+    public Boolean existPlayer(UUID id) {
+        if(findById(id).isPresent())
+        {
+            return Boolean.TRUE;
+        }
+
+      return Boolean.FALSE;
     }
 
 

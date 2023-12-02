@@ -36,21 +36,33 @@ import java.util.UUID;
 public class TransferService {
 
 
+    // Provavelmente a gente vai poder delegar essas ações pra outra classe, caso cresça demais.
+
     private final TransferRepository transferRepository;
     private final ClubRepository clubRepository;
-    private final PlayerRepository playerRepository;
+    private final PlayerService playerRepository;
     private final PlayerClubRepository playerClubRepository;
 
+    private final ClubService clubService;
+    private final PlayerService playerService;
+
+
+    // Reviewing
     public Transfer addTransfer (TransferRecordDTO transferRecordDTO) {
+
         if(Objects.isNull(transferRecordDTO.club_join_id()) && Objects.isNull(transferRecordDTO.club_left_id())){
             throw new SameClubTransferException("Cannot transfer to both null clubs");
         }
 
-        //forma burra temporaria
+
+    
+
+       //Forma burra temporária
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());
         UUID club_join_id = transferRecordDTO.club_join_id(); //UUID.fromString(transferRecordDTO.club_join_id());
         UUID club_left_id = transferRecordDTO.club_left_id(); //UUID.fromString(transferRecordDTO.club_left_id());
         //fim da forma burra temporaria
+
 
         //validar dados
         Optional<Player> player = playerRepository.findById(player_id);
@@ -83,14 +95,14 @@ public class TransferService {
                 club_out = club_out_opt.get();
             }
 
-        }
 
 
         //Checar se data recebida eh maior que Localdate.now ou menor que data da ultima transferencia.
-        //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada
+        //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada (???)
         // e nunca depois do dia atual, ou seja, nao consigo fazer transferencia no passado(em relacao a ultima transferencia)
         // nem no futuro.
-        //desse modo as transferencias devem ser inseridas na ordem que ocorreram.
+        //desse modo as transferencias devem ser inseridas na ordem que ocorreram. (??)
+
         LocalDate received_date = transferRecordDTO.date();
         Optional<LocalDate> last_transfer_date = transferRepository.findLastPlayerTransfer(player_id); //buscar data da ultima transf do jogador
         if(last_transfer_date.isEmpty()){ // se nao existir, atribuir data minima
@@ -108,8 +120,8 @@ public class TransferService {
         //OU SEJA, BUSCAR A ULTIMA TUPLA PELA DATA MAIS RECENTE EM PLAYER CLUB E ATUALIZAR DATE OUT
         // ALEM DISSO, CRIAR UMA NOVA TUPLA EM PLAYER CLUB COM DATE IN FORNECIDO PELO DTO.
 
-
         //Buscando tupla em PlayerClub relation > clube de entrada
+
         if(!Objects.isNull(club_in)){
             PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
                     player_id,
@@ -124,7 +136,7 @@ public class TransferService {
                 // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
                 throw new DuplicatedTransferException("Transfer already exists!");
             }
-        }
+          
 
 
         //Se existir clube de saida > atualizar date_out para data da transferencia > se nao > whatever
@@ -132,13 +144,12 @@ public class TransferService {
         //Buscar a tupla que possui clube_out == dto.club_out, jogador == dto.player e date_out == null
 
         Optional<PlayerClub> player_club_out = playerClubRepository
-                .findPlayerClubByClubAndPlayerAndDate_outNull(player_id, club_left_id);
+                .findPlayerClubByClubAndPlayerAndDate_outNull(transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_join_id());
         if(player_club_out.isPresent()){
             playerClubRepository.updatePlayerClubByDate_out(
-                    player_id, club_left_id, transferRecordDTO.date());
+                    transferRecordDTO.getPlayer_id(), transferRecordDTO.getClub_left_id(), transferRecordDTO.date());
 
         }
-
 
         //Realizar transferencia se tudo ok
         Transfer transfer = new Transfer();
