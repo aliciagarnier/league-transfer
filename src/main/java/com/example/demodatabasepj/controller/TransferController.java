@@ -1,7 +1,6 @@
 package com.example.demodatabasepj.controller;
 
 
-import com.example.demodatabasepj.dtos.ClubRecordDTO;
 import com.example.demodatabasepj.dtos.TransferRecordDTO;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Player;
@@ -10,7 +9,6 @@ import com.example.demodatabasepj.service.ClubService;
 import com.example.demodatabasepj.service.PlayerService;
 import com.example.demodatabasepj.service.TransferService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -81,6 +80,7 @@ public class TransferController {
         currentClubOptional.ifPresent(club -> mv.addObject("currentClub", club));
 
         mv.addObject("player", player.get());
+        mv.addObject("currentDate", LocalDate.now());
 
         return mv;
 
@@ -89,15 +89,31 @@ public class TransferController {
     @PostMapping("/transfer")
     public ModelAndView createTransfer(@Valid TransferRecordDTO transferRecordDTO, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            System.out.println(transferRecordDTO.player_id());
             return new ModelAndView("redirect:/transfer/error");
         }
-        System.out.println(transferRecordDTO.player_id());
-
         Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
         return new ModelAndView("redirect:/transfer/" + new_transfer.getId());
     }
 
+    @PostMapping("/player/transfer/{player_id}")
+    public ModelAndView makePlayerTransfer(@Valid TransferRecordDTO transferRecordDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("redirect:/player/transfer/error");
+        }
+        Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
+        return new ModelAndView("redirect:/transfer/" + new_transfer.getId());
+    }
+
+    
+    @PostMapping("/player/{player_id}")
+    public ModelAndView retirePlayer(@Valid TransferRecordDTO transferRecordDTO, BindingResult bindingResult,
+    @PathVariable("player_id") UUID player_id){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("redirect:/player/transfer/error");
+        }
+        Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
+        return new ModelAndView("redirect:/player/" + player_id);
+    }
 
 
 }

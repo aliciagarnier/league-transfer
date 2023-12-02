@@ -193,6 +193,36 @@
 </div>
 
 
+<!-- Modal aposentar -->
+<div class="modal fade" id="staticBackdrop3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel3">Aposentar jogador</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente aposentar este jogador?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form th:action="@{/player/{id}(id=${player.id})}" th:method="POST">
+
+                    <input type="hidden" name="player_id" th:value="${player.id}" >
+                    <input type="hidden" th:value=" ${currentClub != null} ? ${currentClub.ID_club} : ${null}" name="club_left_id">
+                    <input type="hidden" name="club_join_id" th:value="${null}" >
+                    <input type="hidden" name="date" th:value="${currentDate}" >
+                    <input type="hidden" name="fee" th:value="${0.0}" >
+
+                    <button type="submit"  class="btn btn-danger">Aposentar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="section">
 
@@ -217,9 +247,11 @@
 
            <div class="player_club_info">
                <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
-               <p class="h4">Player Club FC</p>
+               <p class="h4"  th:text=" ${currentClub != null} ? ${currentClub.name} : 'Aposentado'"></p>
                <a class="btn btn-primary" th:href="@{'/player/transfer/' + ${player.id}}" role="button">Transferir</a>
-
+               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">
+                   Aposentar
+               </button>
            </div>
 
        </div>
