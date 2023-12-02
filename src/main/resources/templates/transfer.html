@@ -69,6 +69,66 @@
     <div class="transfer_opt">
         <a class="btn btn-primary" href="/transfer/makeTransfer" role="button">Efetuar transferência de jogador</a>
     </div>
+
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Adicionar transferência
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Insira as informações da transferência</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  th:method="POST" th:action="@{/transfer}" >
+
+                        <div class="mb-3">
+                            <label for="InputPlayer" class="form-label">ID do jogador</label>
+                            <input name="player_id" type="text" class="form-control" id="InputPlayer" aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="InputClubOut" class="form-label">ID do club de saída</label>
+                            <input name="club_left_id" type="text" class="form-control" id="InputClubOut" aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="InputClubIn" class="form-label">ID do club de entrada</label>
+                            <input name="club_join_id" type="text" class="form-control" id="InputClubIn" aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <span>Valor da transação: </span>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">$</span>
+                                <input name="fee"  type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                <span class="input-group-text">.00</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="date">Data da transação: </label>
+                            <input name="date" type="date" id="date">
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 <div class="section">
@@ -88,11 +148,8 @@
             </thead>
             <tbody>
             <tr data-th-each="transfer : ${transfers}">
-                <th><a data-th-text="${transfer.player.name}" th:href="@{'/player/' + ${transfer.player.id}}"></a></th>
-                <th data-th-text="${transfer.player.birthdate}"></th>
-                <th data-th-text="${transfer.player.nacionality}"></th>
-                <th><a data-th-text="${transfer.left.name}" th:href="@{'/club/' + ${transfer.left.ID_club}}"></a></th>
-                <th><a data-th-text="${transfer.join.name}" th:href="@{'/club/' + ${transfer.join.ID_club}}"></a></th>
+                <th data-th-text="${transfer.getId()}"></th>
+                <th data-th-text="${transfer.date}"></th>
                 <th data-th-text="${transfer.fee}"></th>
             </tr>
             </tbody>

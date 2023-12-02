@@ -95,7 +95,7 @@ public class PlayerService {
     }
 
     public Optional<Club> getCurrentClub(UUID id){
-        return playerRepository.getCurrentPlayerClubById(id);
+      return playerRepository.getCurrentPlayerClubById(id);
     }
 
 

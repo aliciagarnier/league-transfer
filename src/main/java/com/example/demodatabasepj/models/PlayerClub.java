@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -32,6 +33,7 @@ public class PlayerClub implements Serializable {
     @JoinColumn(name = "player_id")
     private Player player;
 
-
+    @Column(name = "date_out")
+    private LocalDate date_out;
 
 }

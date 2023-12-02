@@ -23,6 +23,6 @@ public interface PlayerRepository extends JpaRepository<Player, UUID> {
         public long countAllByName(String name);
 
 
-    @Query("SELECT pc.club FROM PlayerClub pc WHERE pc.player.id = ?1 AND YEAR (pc.playerClubPK.date) = YEAR(CURRENT_DATE)")
+    @Query("SELECT pc.club FROM PlayerClub pc WHERE pc.player.id = ?1 AND pc.date_out IS NULL")
         public Optional<Club> getCurrentPlayerClubById(UUID id);
 }
