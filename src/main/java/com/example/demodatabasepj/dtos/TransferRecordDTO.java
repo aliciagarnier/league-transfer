@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record TransferRecordDTO(@NotNull UUID player_id,
+public record TransferRecordDTO(UUID player_id,
                                 UUID club_left_id,
                                 @NotNull  UUID club_join_id,
                                 @NotNull LocalDate date,
