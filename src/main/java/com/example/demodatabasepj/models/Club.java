@@ -45,14 +45,29 @@ public class Club implements Serializable {
     @Column(name = "market_value", nullable = true)
     private BigDecimal marketValue;
 
-    //Association between them is bidirectional
+    // Association between them is bidirectional.
     @OneToMany(mappedBy = "club")
     private Set<PlayerClub> playerClub;
 
-    @OneToMany
-    private Set<Transfer> transfers;
+    // all transfers that one player join this club.
+    @OneToMany(mappedBy = "join")
+    private Set<Transfer> joinTransfers;
 
-    @OneToMany
+    //all transfers that one player left this club.
+    @OneToMany(mappedBy = "left")
+    private Set<Transfer> leftTransfers;
+
+    // all matches that this club was a host team.
+    @OneToMany(mappedBy = "hostTeam")
+    private Set<Match> hostMatches;
+
+    // all matches that this club was a guest team.
+    @OneToMany(mappedBy = "guestTeam")
+    private Set<Match> guestMatches;
+
+    // all goals that a player on the club scored.
+    @OneToMany(mappedBy = "club")
+    private Set<MatchGoals> goals;
 
 
 

@@ -42,7 +42,7 @@ public class TransferService {
     private final PlayerClubRepository playerClubRepository;
 
     public Transfer addTransfer (TransferRecordDTO transferRecordDTO) {
-        //TODO: NAO DEIXAR TRANSFERIR SE OS 2 CLUBES FOREM NULO
+        //TODO: NAO DEIXAR TRANSFERIR SE OS 2 CLUBES FOREM NULOS
 
         //Forma burra temporária
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());

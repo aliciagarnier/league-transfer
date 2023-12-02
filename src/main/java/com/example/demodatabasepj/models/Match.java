@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.Set;
 import java.io.Serializable;
 
 
@@ -15,8 +16,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 @Entity
-@Table(name = "match")
+@Table(name = "matches")
 public class Match implements Serializable {
 
     public Match(League league, Club hostTeam, Club guestTeam, Integer hostTeamGoals,
@@ -52,8 +55,12 @@ public class Match implements Serializable {
     @Column(name = "guest_team_goals")
     private Integer guestTeamGoals;
 
-
+    @Column(name = "match_date")
     private LocalDate date;
+
+    // all goals that occured in the match
+    @OneToMany(mappedBy = "match")
+    Set<MatchGoals> goals;
 
 
 

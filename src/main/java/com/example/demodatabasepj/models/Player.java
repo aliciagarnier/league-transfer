@@ -74,6 +74,9 @@ public class Player implements Serializable {
     @OneToMany(mappedBy = "player")
     private Set<Transfer> transfers;
 
+    @OneToMany(mappedBy = "player")
+    private Set<MatchGoals> goals;
+
 
 
 
