@@ -43,8 +43,8 @@ public class TransferService {
     private final PlayerService playerRepository;
     private final PlayerClubRepository playerClubRepository;
 
-    private final ClubService clubService;
-    private final PlayerService playerService;
+
+    private final PlayerClubService playerClubService;
 
 
     // Reviewing
@@ -157,20 +157,21 @@ public class TransferService {
                 return transferRepository.save(transfer);
             }
 
-     public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) {
+     public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) { // Quando vamos usar esse método?
 
-        // validations here.
-         // one transfer is equal to other one if the value, date, and player are the same.
+         if (transferRepository.findTransferByPlayerDateJoinAndLeftClub(transferRecordDTO.player_id(), transferRecordDTO.club_join_id(),
+                 transferRecordDTO.club_left_id(), transferRecordDTO.date()).isPresent())
+         {
+             throw new DuplicatedTransferException("This transfer already exists."); // Vale para o caso// que nenhuma alteração é realizada.
+         }
 
          BeanUtils.copyProperties(transferRecordDTO, transfer);
          return transferRepository.save(transfer);
     }
 
-
     public List<Transfer> findAllTransfers () {
         return transferRepository.findAll();
     }
-
 
     public Optional<Transfer> findTransferById(UUID id) {
         if(Objects.isNull(id)) {
@@ -202,28 +203,38 @@ public class TransferService {
     }
 
 
-    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId) {
+    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId) { // Não tem data?
         Optional<Player> player = playerRepository.findById(playerId);
-        if (player.isEmpty()){
+
+        if (player.isEmpty())
+        {
             throw new PlayerNotFoundException("Player does not exists");
         }
+
         Optional<Club> club_in = clubRepository.findById(club_inId);
-        if (club_in.isEmpty()){
+
+        if (club_in.isEmpty())
+        {
             throw new ClubDoesNotExistsException("Club joining does not exists");
         }
+
         Optional<Club> club_out = clubRepository.findById(club_outId);
-        if (club_out.isEmpty()){
+
+        if (club_out.isEmpty())
+        {
             throw new ClubDoesNotExistsException("Club leaving does not exists");
         }
 
         //Assert transfer
-        Transfer transfer = new Transfer(player.get() , club_in.get(),
-                club_out.get(), LocalDate.now(), player.get().getMarketValue());
+        Transfer transfer = new Transfer(player.get(), club_in.get(),
+                club_out.get(), LocalDate.now(), player.get().getMarketValue()); // Não entendi.
 
-        //Alterar data de saida do antigo club
+        // Alterar data de saida do antigo clube -> Encontrar a data mais recente, tal que o jogador seja esse em questão.
 
+        // Criar tupla com data de entrada no novo clube (ok!)
 
-        //Criar tupla com data de entrada no novo clube
+        playerClubService.addPlayerClubRelationship(transfer);
+
 
 
         return transferRepository.save(transfer);
