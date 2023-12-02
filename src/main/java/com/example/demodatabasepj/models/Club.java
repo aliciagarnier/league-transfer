@@ -20,6 +20,14 @@ import java.util.*;
 @Table(name = "club")
 public class Club implements Serializable {
 
+    public Club(String name, String stadium, BigDecimal marketValue)
+    {
+        this.playerClub = new HashSet<>();
+        this.name = name;
+        this.stadium = stadium;
+        this.marketValue = marketValue;
+    }
+
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -44,12 +52,9 @@ public class Club implements Serializable {
     @OneToMany
     private Set<Transfer> transfers;
 
-    public Club(String name, String stadium, BigDecimal marketValue)
-    {
-        this.playerClub = new HashSet<>();
-        this.name = name;
-        this.stadium = stadium;
-        this.marketValue = marketValue;
-    }
+    @OneToMany
+
+
+
 
 }
