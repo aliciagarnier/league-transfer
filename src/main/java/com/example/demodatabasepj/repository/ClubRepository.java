@@ -22,4 +22,5 @@ public interface ClubRepository extends JpaRepository<Club, UUID> {
 
     @Query("SELECT COUNT(club) FROM Club club WHERE club.name LIKE %?1%")
     long countAllByName(String name);
+
 }
