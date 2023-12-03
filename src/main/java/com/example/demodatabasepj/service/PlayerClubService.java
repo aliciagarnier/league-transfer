@@ -1,8 +1,4 @@
 package com.example.demodatabasepj.service;
-
-
-
-
 import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.models.Transfer;
 import com.example.demodatabasepj.models.pk.PlayerClubPK;
@@ -15,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
 @Service
 @AllArgsConstructor
 public class PlayerClubService {

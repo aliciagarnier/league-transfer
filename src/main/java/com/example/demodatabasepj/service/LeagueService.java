@@ -68,6 +68,13 @@ public class LeagueService {
         return leagueModel;
     }
 
+    public Boolean existLeague (UUID id) {
+        if (getOneLeague(id).isPresent())
+        {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
     public Optional<League> getOneLeague(UUID id){
         return repository.findById(id);
     }
