@@ -5,7 +5,9 @@ import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
 import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
+import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.service.ClubService;
+import com.example.demodatabasepj.service.PlayerClubService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,12 @@ import java.util.UUID;
 public class ClubController {
 
     private final ClubService service;
+    private final PlayerClubService playerClubService;
 
     @Autowired
-    public ClubController(ClubService service){
+    public ClubController(ClubService service, PlayerClubService playerClubService){
         this.service = service;
+        this.playerClubService = playerClubService;
     }
 
 
@@ -90,6 +94,7 @@ public class ClubController {
    @GetMapping("/club/{id}")
     public ModelAndView getOneClub(@PathVariable(value = "id") UUID id){
         Optional<Club> club = service.getOneClub(id);
+        List<Player> currentTeam = playerClubService.getClubCurrentTeam(id);
 
         if(club.isEmpty()){
            return new ModelAndView("redirect:/club");
@@ -97,6 +102,7 @@ public class ClubController {
 
         ModelAndView mv = new ModelAndView("clubProfile");
         mv.addObject("club", club.get());
+        mv.addObject("team", currentTeam);
         return mv;
    }
 

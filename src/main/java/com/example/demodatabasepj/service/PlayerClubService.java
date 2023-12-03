@@ -3,15 +3,20 @@ package com.example.demodatabasepj.service;
 
 
 
+import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.models.Transfer;
 import com.example.demodatabasepj.models.pk.PlayerClubPK;
 import com.example.demodatabasepj.repository.PlayerClubRepository;
 import com.example.demodatabasepj.models.PlayerClub;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
+@Service
 @AllArgsConstructor
 public class PlayerClubService {
 
@@ -43,5 +48,8 @@ public class PlayerClubService {
        return Boolean.FALSE;
    }
 
+   public List<Player> getClubCurrentTeam(UUID club_id){
+       return repository.findAllByClubAndDate_outNull(club_id);
+   }
 
 }

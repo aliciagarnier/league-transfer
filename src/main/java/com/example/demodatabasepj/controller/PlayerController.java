@@ -7,7 +7,9 @@ import com.example.demodatabasepj.exception.player.InvalidBirthDateException;
 import com.example.demodatabasepj.exception.player.InvalidPlayerException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Player;
+import com.example.demodatabasepj.models.Transfer;
 import com.example.demodatabasepj.service.PlayerService;
+import com.example.demodatabasepj.service.TransferService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -32,11 +34,13 @@ import java.util.UUID;
 @Controller
 public class PlayerController {
     private final PlayerService playerService;
+    private final TransferService transferService;
 
     @Autowired
-    public PlayerController(PlayerService playerService) {
+    public PlayerController(PlayerService playerService, TransferService transferService) {
 
         this.playerService = playerService;
+        this.transferService = transferService;
     }
     @PostMapping("/player")
     public ModelAndView savePlayer(@Valid PlayerRecordDTO playerRecordDTO, BindingResult bindingResult) {
@@ -92,7 +96,7 @@ public class PlayerController {
     public ModelAndView getOnePlayer(@PathVariable(value="id") UUID id) {
         Optional<Player> player = playerService.findById(id);
         Optional<Club> currentClubOptional = playerService.getCurrentClub(id);
-
+        List<Transfer> transfers = transferService.findAllTransfersByPlayerId(id);
         if(player.isEmpty())
         {
             //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found.");
@@ -104,6 +108,7 @@ public class PlayerController {
         mv.addObject("player", player.get());
         mv.addObject("currentDate", LocalDate.now());
         currentClubOptional.ifPresent(club -> mv.addObject("currentClub", club));
+        mv.addObject("transfers", transfers);
 
         return mv;
 

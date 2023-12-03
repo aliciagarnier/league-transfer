@@ -277,36 +277,23 @@
             <thead>
             <tr>
                 <th scope="col">Jogador</th>
-                <th scope="col">Idade</th>
+                <th scope="col">Data</th>
                 <th scope="col">Nac.</th>
-                <th scope="col">Saiu de</th>
-                <th scope="col">Entrou em</th>
-                <th scope="col">Taxa</th>
+                <th style="color: #e81717" scope="col">Saiu de</th>
+                <th style="color: green" scope="col">Entrou em</th>
+                <th scope="col">Taxa (US$)</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+            <tr data-th-each="transfer : ${transfers}">
+                <th><a data-th-text="${transfer.player.name}" th:href="@{'/player/' + ${transfer.player.id}}"></a></th>
+                <th data-th-text="${transfer.date}"></th>
+                <th data-th-text="${transfer.player.nacionality}"></th>
+                <th th:if="${transfer.left != null}"><a data-th-text="${transfer.left.name}" th:href="@{'/club/' + ${transfer.left.ID_club}}"></a></th>
+                <th th:unless="${transfer.left != null}">Sem clube</th>
+                <th th:if="${transfer.join != null}"><a data-th-text="${transfer.join.name}" th:href="@{'/club/' + ${transfer.join.ID_club}}"></a></th>
+                <th th:unless="${transfer.join != null}">Sem clube</th>
+                <th data-th-text="${transfer.fee}"></th>
             </tr>
             </tbody>
         </table>

@@ -44,7 +44,6 @@ public class TransferService {
     private final PlayerClubRepository playerClubRepository;
 
 
-    private final PlayerClubService playerClubService;
 
 
     // Reviewing
@@ -208,5 +207,8 @@ public class TransferService {
         return transferRepository.countAllByPlayerNameOrJoinNameOrLeftName(keyword);
     }
 
+    public List<Transfer> findAllTransfersByPlayerId(UUID id){
+        return transferRepository.findAllByPlayerId(id);
+    }
 
 }
