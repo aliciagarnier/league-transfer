@@ -43,7 +43,7 @@ public class TransferController {
     public ModelAndView getAllTransfersWithFilter(@Param("keyword") String keyword){
         ModelAndView mv = new ModelAndView("transfer");
         Page<Transfer> page =  transferService.getAllTransfersWithFilter(keyword, 1,
-                "date", "desc");
+                "date", "desc", 20);
 
         mv.addObject("transfers", page.getContent());
         mv.addObject("transferCount", transferService.countAllTransfersByPlayerNameOrJoinNameOrLeftName(keyword));
@@ -74,7 +74,7 @@ public class TransferController {
 
         Optional<Club> currentClubOptional = playerService.getCurrentClub(id);
 
-        Page<Club> page = clubService.getAllClubsByName(keyword, 1,"marketValue", "desc");
+        Page<Club> page = clubService.getAllClubsByName(keyword, 1,"marketValue", "asc");
         mv.addObject("clubs", page.getContent());
 
         currentClubOptional.ifPresent(club -> mv.addObject("currentClub", club));

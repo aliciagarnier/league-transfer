@@ -5,6 +5,7 @@ import com.example.demodatabasepj.enumerator.Foot;
 import com.example.demodatabasepj.enumerator.Position;
 import com.example.demodatabasepj.exception.player.InvalidBirthDateException;
 import com.example.demodatabasepj.exception.player.InvalidPlayerException;
+import com.example.demodatabasepj.exception.player.PlayerNotFoundException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.repository.PlayerRepository;
@@ -107,4 +108,8 @@ public class PlayerService {
     }
 
 
+    public Optional<Player> getMVP(){
+
+        return playerRepository.findPlayerWithMaxMarketValue();
+    }
 }
