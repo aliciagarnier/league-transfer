@@ -35,16 +35,12 @@ import java.util.UUID;
 @Service
 public class TransferService {
 
-
     // Provavelmente a gente vai poder delegar essas ações pra outra classe, caso cresça demais.
 
     private final TransferRepository transferRepository;
     private final ClubRepository clubRepository;
     private final PlayerService playerRepository;
     private final PlayerClubRepository playerClubRepository;
-
-
-
 
     // Reviewing
     public Transfer addTransfer (TransferRecordDTO transferRecordDTO) {
@@ -164,10 +160,12 @@ public class TransferService {
 
      public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) { // Quando vamos usar esse método?
 
-         if (transferRepository.findTransferByPlayerDateJoinAndLeftClub(transferRecordDTO.player_id(), transferRecordDTO.club_join_id(),
-                 transferRecordDTO.club_left_id(), transferRecordDTO.date()).isPresent())
+         if (transferRepository.findTransferByPlayerDateJoinAndLeftClub(transferRecordDTO.player_id(),
+                 transferRecordDTO.club_join_id(), transferRecordDTO.club_left_id(),
+                 transferRecordDTO.date()).isPresent())
          {
-             throw new DuplicatedTransferException("This transfer already exists."); // Vale para o caso// que nenhuma alteração é realizada.
+             throw new DuplicatedTransferException("This transfer already exists."); // Vale para o caso que nenhuma
+             // alteração é realizada.
          }
 
          BeanUtils.copyProperties(transferRecordDTO, transfer);

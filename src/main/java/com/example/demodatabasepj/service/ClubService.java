@@ -82,6 +82,14 @@ public class ClubService {
         return Boolean.FALSE;
     }
 
+    public Boolean existClub(Optional<Club> optional) {
+        if (optional.isPresent())
+        {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
     public Page<Club> getAllClubs(String keyword, int pageNumber, String sortField, String sortDir){
         /*if(Objects.isNull(sortDir) || Objects.isNull(sortField) || Objects.isNull(keyword)){
             Sort sort = Sort.by("marketValue").descending();
