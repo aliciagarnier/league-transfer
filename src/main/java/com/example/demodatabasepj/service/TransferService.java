@@ -43,8 +43,8 @@ public class TransferService {
     private final PlayerService playerRepository;
     private final PlayerClubRepository playerClubRepository;
 
-    private final ClubService clubService;
-    private final PlayerService playerService;
+
+    private final PlayerClubService playerClubService;
 
 
     // Reviewing
@@ -163,20 +163,21 @@ public class TransferService {
                 return transferRepository.save(transfer);
             }
 
-     public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) {
+     public Transfer updateTransfer (TransferRecordDTO transferRecordDTO, Transfer transfer) { // Quando vamos usar esse método?
 
-        // validations here.
-         // one transfer is equal to other one if the value, date, and player are the same.
+         if (transferRepository.findTransferByPlayerDateJoinAndLeftClub(transferRecordDTO.player_id(), transferRecordDTO.club_join_id(),
+                 transferRecordDTO.club_left_id(), transferRecordDTO.date()).isPresent())
+         {
+             throw new DuplicatedTransferException("This transfer already exists."); // Vale para o caso// que nenhuma alteração é realizada.
+         }
 
          BeanUtils.copyProperties(transferRecordDTO, transfer);
          return transferRepository.save(transfer);
     }
 
-
     public List<Transfer> findAllTransfers () {
         return transferRepository.findAll();
     }
-
 
     public Optional<Transfer> findTransferById(UUID id) {
         if(Objects.isNull(id)) {
