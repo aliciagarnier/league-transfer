@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,15 +25,15 @@ public class PlayerClub implements Serializable {
    @EmbeddedId
    private PlayerClubPK playerClubPK; // Primary key.
 
-
-    @MapsId("club_id")
-    @ManyToOne(optional = false)
+ @OnDelete(action = OnDeleteAction.CASCADE)
+ @MapsId("club_id")
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "club_id")
     private Club club;
 
-
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @MapsId("player_id")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
     private Player player;
 

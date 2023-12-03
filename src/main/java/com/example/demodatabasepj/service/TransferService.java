@@ -109,6 +109,11 @@ public class TransferService {
                 throw new InvalidTransferDateException("Invalid date of transfer!");
             }
 
+        if(received_date.isEqual(last_transfer_date.get())){
+            throw new InvalidTransferDateException("Esse jogador ja fez uma transferencia neste dia!");
+        }
+
+
 
             // SETAR EM PLAYER_CLUB A DATA DA TRANSF E DATE OUT NULL -- DONE
             // NA PROXIMA TRANSF ATUALIZAR DATE OUT
@@ -119,14 +124,15 @@ public class TransferService {
 
             if (!Objects.isNull(club_in)) {
                 PlayerClubPK playerClubPK_club_in = new PlayerClubPK(
-                        player_id,
                         club_join_id,
+                        player_id,
                         transferRecordDTO.date());
                 Optional<PlayerClub> player_club_in = playerClubRepository.findById(playerClubPK_club_in); //procurar tupla
-                //Criar tupla em player_club se ela nao existir
+                //Criar tupla em player_club se ela nao existie
                 if (player_club_in.isEmpty()) {
                     PlayerClub new_playerClubTuple = new PlayerClub(playerClubPK_club_in, club_in, player.get(), null);
                     playerClubRepository.save(new_playerClubTuple);
+
                 } else {
                     // se existir tupla com mesmo jogador , mesmo clube e mesma data. lancar excecao
                     throw new DuplicatedTransferException("Transfer already exists!");
@@ -184,12 +190,12 @@ public class TransferService {
         transferRepository.delete(transfer);
     }
 
-    public Page<Transfer> getAllTransfersWithFilter(String keyword, int pageNumber, String sortField, String sortDir)
+    public Page<Transfer> getAllTransfersWithFilter(String keyword, int pageNumber, String sortField, String sortDir, int pageSize)
     {
         Sort sort = Sort.by(sortField);
         sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
 
-        Pageable pageable = PageRequest.of(pageNumber - 1 , 20, sort);
+        Pageable pageable = PageRequest.of(pageNumber - 1 , pageSize, sort);
 
         if(Objects.isNull(keyword)){
             return transferRepository.findAll(pageable);
@@ -202,42 +208,5 @@ public class TransferService {
         return transferRepository.countAllByPlayerNameOrJoinNameOrLeftName(keyword);
     }
 
-
-    public Transfer makePlayerTransfer(UUID playerId, UUID club_inId, UUID club_outId) { // Não tem data?
-        Optional<Player> player = playerRepository.findById(playerId);
-
-        if (player.isEmpty())
-        {
-            throw new PlayerNotFoundException("Player does not exists");
-        }
-
-        Optional<Club> club_in = clubRepository.findById(club_inId);
-
-        if (club_in.isEmpty())
-        {
-            throw new ClubDoesNotExistsException("Club joining does not exists");
-        }
-
-        Optional<Club> club_out = clubRepository.findById(club_outId);
-
-        if (club_out.isEmpty())
-        {
-            throw new ClubDoesNotExistsException("Club leaving does not exists");
-        }
-
-        //Assert transfer
-        Transfer transfer = new Transfer(player.get(), club_in.get(),
-                club_out.get(), LocalDate.now(), player.get().getMarketValue()); // Não entendi.
-
-        // Alterar data de saida do antigo clube -> Encontrar a data mais recente, tal que o jogador seja esse em questão.
-
-        // Criar tupla com data de entrada no novo clube (ok!)
-
-        playerClubService.addPlayerClubRelationship(transfer);
-
-
-
-        return transferRepository.save(transfer);
-    }
 
 }
