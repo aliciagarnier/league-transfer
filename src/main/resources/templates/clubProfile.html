@@ -168,14 +168,15 @@
                 </div>
 
                 <div class="player_pic_info">
+                    <span class="id_span" th:text="'ID: #' + ${club.ID_club}"></span>
                     <p class="h1" th:text="${club.name}"></p>
                     <span th:text=" ${club.stadium != ''} ? 'Estádio: ' + ${club.stadium} : 'Estádio: Não possui' " class="card-text"></span>
                 </div>
             </div>
 
-            <div class="player_club_info">
+            <div th:if="${currentLeague}" class="player_club_info">
                 <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
-                <p class="h4">Club league here</p>
+                <p th:text="${currentLeague.name}" class="h4"></p>
             </div>
 
         </div>
