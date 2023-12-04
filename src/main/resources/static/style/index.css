@@ -11,3 +11,34 @@ div.section{
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
     padding: 2rem;
 }
+
+span.id_span{
+    font-weight: bolder;
+}
+
+div.section_wrap{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem;
+
+}
+
+div.top_section{
+    width: 960px;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+}
+
+div.right_mvp{
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+}
+
+div.mvp{
+    display: grid;
+    justify-items: center;
+}
+
+div.mvp_card{
+    border-color: rgba(253, 184, 30, 0.83);
+    box-shadow: 0 0 7px 5px rgb(199 169 102 / 28%);
+}

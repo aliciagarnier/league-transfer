@@ -1,13 +1,17 @@
 package com.example.demodatabasepj.controller;
 
 
+import com.example.demodatabasepj.dtos.ClubLeagueDTO;
 import com.example.demodatabasepj.dtos.LeagueRecordDTO;
 import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
 import com.example.demodatabasepj.exception.league.DuplicatedLeagueException;
+import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.League;
+import com.example.demodatabasepj.service.ClubLeagueService;
 import com.example.demodatabasepj.service.LeagueService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,15 +28,14 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Controller
 public class LeagueController {
 
     private final LeagueService leagueService;
+    private final ClubLeagueService clubLeagueService;
 
-    @Autowired
-    public LeagueController(LeagueService service){
-        this.leagueService = service;
-    }
+
 
     @PostMapping("/league")
     public ModelAndView saveLeague(@Valid LeagueRecordDTO leagueRecordDTO, BindingResult bindingResult){
@@ -91,8 +94,11 @@ public class LeagueController {
             return new ModelAndView("redirect:/league");
         }
 
+        List<Club> leagueCurrentClubs = clubLeagueService.findCurrentSquadClub(id);
+
         ModelAndView mv = new ModelAndView("leagueProfile");
         mv.addObject("league", league.get());
+        mv.addObject("teams", leagueCurrentClubs);
         return mv;
     }
 
@@ -112,6 +118,18 @@ public class LeagueController {
         mv.addObject("region", region);
         //return ResponseEntity.status(HttpStatus.OK).body(leagueService.getAllLeagues());
         return mv;
+    }
+
+
+    @PostMapping("/league/{league_id}")
+    public ModelAndView saveLeague(@PathVariable("league_id") UUID league_id
+            ,@Valid ClubLeagueDTO clubLeagueDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ModelAndView("redirect:/league/" + league_id);
+        }
+
+        clubLeagueService.assignClubToLeague(clubLeagueDTO);
+        return new ModelAndView("redirect:/league/" + league_id);
     }
 
 }

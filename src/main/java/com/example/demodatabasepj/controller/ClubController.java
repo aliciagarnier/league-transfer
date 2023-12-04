@@ -5,10 +5,13 @@ import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
 import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
+import com.example.demodatabasepj.models.League;
 import com.example.demodatabasepj.models.Player;
+import com.example.demodatabasepj.service.ClubLeagueService;
 import com.example.demodatabasepj.service.ClubService;
 import com.example.demodatabasepj.service.PlayerClubService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,17 +29,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 //@RestController
+@AllArgsConstructor
 @Controller
 public class ClubController {
 
     private final ClubService service;
     private final PlayerClubService playerClubService;
+    private final ClubLeagueService clubLeagueService;
 
-    @Autowired
-    public ClubController(ClubService service, PlayerClubService playerClubService){
-        this.service = service;
-        this.playerClubService = playerClubService;
-    }
+
 
 
     @PostMapping("/club")
@@ -100,10 +101,15 @@ public class ClubController {
            return new ModelAndView("redirect:/club");
         }
 
+        Optional<League> currentLeague = clubLeagueService.findClubCurrentLeague(id);
+
+
         ModelAndView mv = new ModelAndView("clubProfile");
         mv.addObject("club", club.get());
         mv.addObject("team", currentTeam);
-        return mv;
+        currentLeague.ifPresent(league -> mv.addObject("currentLeague", league));
+
+       return mv;
    }
 
     @RequestMapping("/club")

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
@@ -20,12 +22,13 @@ public class ClubLeague implements Serializable {
     @EmbeddedId
     private ClubLeaguePK id;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @MapsId("club_id")
     @ManyToOne(optional = false)
     @JoinColumn(name = "club_id")
     private Club club;
 
-
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @MapsId("league_id")
     @ManyToOne(optional = false)
     @JoinColumn(name = "league_id")

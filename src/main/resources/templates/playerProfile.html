@@ -236,6 +236,7 @@
                </div>
 
                <div class="player_pic_info">
+                   <span class="id_span" th:text="'ID: #' + ${player.id}"></span>
                    <p class="h1" th:text="${player.name}"></p>
                    <span class="card-text" th:text="'Posição: ' + ${player.position}"></span>
                    <span class="card-text" th:text="'Pé dominante: ' + ${player.foot}"></span>

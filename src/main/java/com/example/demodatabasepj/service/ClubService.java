@@ -6,6 +6,7 @@ import com.example.demodatabasepj.dtos.ClubRecordDTO;
 import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
 import com.example.demodatabasepj.models.Club;
+import com.example.demodatabasepj.models.League;
 import com.example.demodatabasepj.repository.ClubRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,4 +130,6 @@ public class ClubService {
         }
         return repository.countAllByName(keyword);
     }
+
+
 }
