@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -131,5 +132,8 @@ public class ClubService {
         return repository.countAllByName(keyword);
     }
 
+    public BigDecimal getClubCurrentMV(UUID club_id){
+        return repository.getCurrentMarketValue(club_id);
+    }
 
 }

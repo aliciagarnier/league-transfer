@@ -261,16 +261,14 @@
             <thead>
             <tr>
                 <th scope="col">Clube</th>
-                <th scope="col">Equipe</th>
-                <th scope="col">Idade média</th>
-                <th scope="col">MV</th>
+                <th scope="col">Estádio</th>
+                <th scope="col">MV(US$)</th>
             </tr>
             </thead>
             <tbody>
             <tr data-th-each="team : ${teams}">
                 <th><a data-th-text="${team.name}" th:href="@{'/club/' + ${team.ID_club}}"></a></th>
-                <th data-th-text="${team.stadium}"></th>
-                <th data-th-text="${team.marketValue}"></th>
+                <th data-th-text="${team.stadium != ''} ? ${team.stadium} : '-'"></th>
                 <th data-th-text="${team.marketValue}"></th>
             </tr>
             </tbody>
@@ -298,7 +296,7 @@
 
                         <div class="mb-3">
                             <span>Time de casa: </span>
-                            <select th:if="${teams != null}" name="position" class="form-select" aria-label="Default select example">
+                            <select required th:if="${teams != null}" name="hostTeamID" class="form-select" aria-label="Default select example">
                                 <option th:each="team: ${teams}"
                                         th:value="${team.ID_club}" th:text="${team.name}">
                                 </option>
@@ -307,7 +305,7 @@
 
                         <div class="mb-3">
                             <span>Time convidado: </span>
-                            <select th:if="${teams != null}" name="position" class="form-select" aria-label="Default select example">
+                            <select required th:if="${teams != null}" name="guestTeamID" class="form-select" aria-label="Default select example">
                                 <option  th:each="team: ${teams}"
                                         th:value="${team.ID_club}" th:text="${team.name}">
                                 </option>
@@ -315,10 +313,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="birthday">Data: </label>
-                            <input name="birthdate" type="date" id="birthday">
+                            <input required name="date" type="date" id="birthday">
                         </div>
 
-
+                        <input type="hidden" name="leagueID" th:value="${league.id}">
+                        <input type="hidden" name="hostTeamGoals" th:value="${0}">
+                        <input type="hidden" name="guestTeamGoals" th:value="${0}">
 
                         <button type="submit" class="btn btn-success">Criar</button>
                     </form>
@@ -345,7 +345,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr></tr>
+            <tr data-th-each="match : ${matches}">
+                <th data-th-text="${match.date}"></th>
+                <th><a data-th-text="${match.hostTeam.name}" th:href="@{'/club/' + ${match.hostTeam.ID_club}}"></a></th>
+                <th  ><a class="img-thumbnail" th:href="@{'/match/' + ${match.id}}">
+                    <span data-th-text="${match.hostTeamGoals}"></span>
+                    <span>:</span>
+                    <span data-th-text="${match.guestTeamGoals}"></span>
+                </a></th>
+                <th><a data-th-text="${match.guestTeam.name}" th:href="@{'/club/' + ${match.guestTeam.ID_club}}"></a></th>
+            </tr>
             </tbody>
         </table>
     </div>

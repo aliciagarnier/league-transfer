@@ -27,6 +27,6 @@ public interface PlayerRepository extends JpaRepository<Player, UUID> {
         public Optional<Club> getCurrentPlayerClubById(UUID id);
 
 
-    @Query("SELECT player FROM Player player WHERE player.marketValue = (SELECT MAX (p.marketValue) FROM Player p)")
+    @Query("SELECT DISTINCT player FROM Player player ORDER BY player.marketValue DESC LIMIT 1")
         Optional<Player> findPlayerWithMaxMarketValue();
 }

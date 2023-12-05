@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -102,11 +103,12 @@ public class ClubController {
         }
 
         Optional<League> currentLeague = clubLeagueService.findClubCurrentLeague(id);
-
+        BigDecimal currentMV = service.getClubCurrentMV(id);
 
         ModelAndView mv = new ModelAndView("clubProfile");
         mv.addObject("club", club.get());
         mv.addObject("team", currentTeam);
+        mv.addObject("mv", currentMV);
         currentLeague.ifPresent(league -> mv.addObject("currentLeague", league));
 
        return mv;

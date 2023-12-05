@@ -8,8 +8,10 @@ import com.example.demodatabasepj.exception.club.DuplicatedClubException;
 import com.example.demodatabasepj.exception.league.DuplicatedLeagueException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.League;
+import com.example.demodatabasepj.models.Match;
 import com.example.demodatabasepj.service.ClubLeagueService;
 import com.example.demodatabasepj.service.LeagueService;
+import com.example.demodatabasepj.service.MatchService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -34,7 +36,7 @@ public class LeagueController {
 
     private final LeagueService leagueService;
     private final ClubLeagueService clubLeagueService;
-
+    private final MatchService matchService;
 
 
     @PostMapping("/league")
@@ -95,10 +97,12 @@ public class LeagueController {
         }
 
         List<Club> leagueCurrentClubs = clubLeagueService.findCurrentSquadClub(id);
+        List<Match> recentMatches = matchService.getLatestMatchesFromLeague(id);
 
         ModelAndView mv = new ModelAndView("leagueProfile");
         mv.addObject("league", league.get());
         mv.addObject("teams", leagueCurrentClubs);
+        mv.addObject("matches", recentMatches);
         return mv;
     }
 

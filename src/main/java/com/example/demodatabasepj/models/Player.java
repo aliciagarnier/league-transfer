@@ -10,7 +10,9 @@ import org.hibernate.annotations.Cascade;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.math.BigDecimal;
@@ -78,8 +80,12 @@ public class Player implements Serializable {
     private Set<MatchGoals> goals;
 
 
-
-
+    public int getPlayerAge(){
+        if (Objects.isNull(this.birthdate)){
+            return 0;
+        }
+        return LocalDate.now().compareTo(birthdate);
+    }
 
 
 

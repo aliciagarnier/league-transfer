@@ -120,12 +120,10 @@
                 <img src="/images/player.jpg" class="card-img-top" alt="player">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${mvp.name}"></h5>
-                    <span class="card-text" th:text="${mvp.birthdate}"></span>
-                    <span class="card-text" th:text="'Posição: ' + ${mvp.position}"></span>
-                    <span class="card-text" th:text="'Pé dominante: ' + ${mvp.foot}"></span>
-                    <span class="card-text" th:text="'Altura: ' + ${mvp.height} + 'm'"> </span>
-                    <span class="card-text" th:text="'Valor de mercado: $' + ${mvp.marketValue}"></span>
-                    <span class="card-text" th:text="'Nacionalidade: ' + ${mvp.nacionality}"></span>
+                    <p class="card-text" th:text="'Posição: ' + ${mvp.position}"></p>
+                    <p class="card-text" th:text="'Altura: ' + ${mvp.height} + 'm'"> </p>
+                    <p class="card-text" th:text="'Valor de mercado: $' + ${mvp.marketValue}"></p>
+                    <p class="card-text" th:text="'Nacionalidade: ' + ${mvp.nacionality}"></p>
                     <a th:href="@{'player/' + ${mvp.id}}" class="btn btn-primary">Detalhes</a>
                 </div>
             </div>
@@ -135,52 +133,38 @@
 
 </div>
 
+<div class="match_section">
 
-<div class="section">
+<div class="section top_section match_box">
     <div class="tabela">
         <h2> Últimas partidas</h2>
-        <table class="table">
+        <table class="table table-striped table-hover">
 
             <thead>
             <tr>
-                <th scope="col">Jogador</th>
-                <th scope="col">Idade</th>
-                <th scope="col">Nac.</th>
-                <th scope="col">Saiu de</th>
-                <th scope="col">Entrou em</th>
-                <th scope="col">Taxa</th>
+                <th scope="col">Data</th>
+                <th scope="col">Time de casa</th>
+                <th scope="col">Resultado</th>
+                <th scope="col">Time convidado</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-
+            <tr data-th-each="match : ${latestMatches}">
+                <th data-th-text="${match.date}"></th>
+                <th><a data-th-text="${match.hostTeam.name}" th:href="@{'/club/' + ${match.hostTeam.ID_club}}"></a></th>
+                <th  ><a class="img-thumbnail" th:href="@{'/match/' + ${match.id}}">
+                    <span data-th-text="${match.hostTeamGoals}"></span>
+                    <span>:</span>
+                    <span data-th-text="${match.guestTeamGoals}"></span>
+                </a></th>
+                <th><a data-th-text="${match.guestTeam.name}" th:href="@{'/club/' + ${match.guestTeam.ID_club}}"></a></th>
             </tr>
             </tbody>
         </table>
+
     </div>
+</div>
+
 </div>
 
 <div class="container">

@@ -4,6 +4,8 @@ package com.example.demodatabasepj.models;
 import com.example.demodatabasepj.enumerator.GoalType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 import java.io.Serializable;
@@ -26,14 +28,17 @@ public class MatchGoals implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "id_match")
     private Match match;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "id_player")
     private Player player;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
     @JoinColumn(name = "id_club")
     private Club club;
