@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface LeagueRepository extends JpaRepository<League, UUID> {
@@ -21,4 +22,8 @@ public interface LeagueRepository extends JpaRepository<League, UUID> {
     Page<League> findAllByRegion(String region, Pageable pageable);
     @Query("SELECT COUNT(league) FROM League league WHERE league.name LIKE %?1%")
     Long countAllByName(String name);
+
+
+    @Query("SELECT SUM(cl.club.marketValue) from ClubLeague cl ")
+    BigDecimal sumClubMVByCurrentDate(UUID league_id);
 }

@@ -7,10 +7,10 @@ import jakarta.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 import java.time.LocalDate;
 
-public record MatchRecordDTO(@NotNull @NotBlank UUID leagueID,
-                            @NotNull @NotBlank UUID hostTeamID,
-                            @NotNull @NotBlank UUID guestTeamID,
+public record MatchRecordDTO(@NotNull UUID leagueID,
+                            @NotNull UUID hostTeamID,
+                            @NotNull UUID guestTeamID,
                             @PositiveOrZero Integer hostTeamGoals,
                              @PositiveOrZero Integer guestTeamGoals,
-                            LocalDate date) {
+                            @NotNull LocalDate date) {
 }

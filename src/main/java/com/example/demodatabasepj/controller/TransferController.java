@@ -101,7 +101,7 @@ public class TransferController {
             return new ModelAndView("redirect:/player/transfer/error");
         }
         Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
-        return new ModelAndView("redirect:/transfer/" + new_transfer.getId());
+        return new ModelAndView("redirect:/club/" + new_transfer.getJoin().getID_club());
     }
 
     

@@ -49,11 +49,11 @@ public class TransferService {
             throw new SameClubTransferException("Cannot transfer to both null clubs");
         }
 
-       //Forma burra temporária
+
         UUID player_id = transferRecordDTO.player_id(); //UUID.fromString(transferRecordDTO.player_id());
         UUID club_join_id = transferRecordDTO.club_join_id(); //UUID.fromString(transferRecordDTO.club_join_id());
         UUID club_left_id = transferRecordDTO.club_left_id(); //UUID.fromString(transferRecordDTO.club_left_id());
-        //fim da forma burra temporaria
+
 
         //validar dados
         Optional<Player> player = playerRepository.findById(player_id);
@@ -146,7 +146,6 @@ public class TransferService {
                             transferRecordDTO.player_id(), transferRecordDTO.club_left_id(), transferRecordDTO.date());
 
                 }
-
                 //Realizar transferencia se tudo ok
                 Transfer transfer = new Transfer();
                 transfer.setDate(transferRecordDTO.date());

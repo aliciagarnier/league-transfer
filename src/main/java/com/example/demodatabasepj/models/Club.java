@@ -42,8 +42,8 @@ public class Club implements Serializable {
     @Column(name = "stadium", nullable = true)
     private String stadium;
 
-    @Column(name = "market_value", nullable = true)
-    private BigDecimal marketValue;
+    @Column(name = "market_value")
+    private BigDecimal marketValue = BigDecimal.ZERO;
 
     // Association between them is bidirectional.
     @OneToMany(mappedBy = "club")

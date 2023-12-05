@@ -10,9 +10,11 @@ import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.models.Match;
 import com.example.demodatabasepj.repository.MatchRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -82,4 +84,11 @@ public class MatchService {
     public Optional<Match> findMatchById(UUID id) { return repository.findById(id); }
 
 
+    public List<Match> getLatestMatchesFromLeague(UUID league_id){
+        return repository.getTopMatchesByDate(league_id);
+    }
+
+    public List<Match> getAllLatestMatches(){
+        return repository.getMatchByDate();
+    }
 }

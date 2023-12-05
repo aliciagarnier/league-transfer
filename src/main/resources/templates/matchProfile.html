@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${club.name} + ' - Transfer League'"></title>
+    <title th:text="${player.name} + ' - Transfer League'"></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/index.css">
     <link rel="stylesheet" href="/style/playerProfile.css">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/logo.png" sizes="32x32">
-
 </head>
 
 
@@ -49,7 +48,7 @@
                             Ligas
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/league">Ligas</a></li>
+                            <li><a class="dropdown-item" href="#">Ligas</a></li>
                             <li><a class="dropdown-item" href="#">Partidas</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
@@ -68,94 +67,12 @@
     </nav>
 </div>
 
-<div class="side_buttons">
-
-    <a class="btn btn-secondary go-bck-btn" href="/club" role="button">< Voltar</a>
-
-    <div class="admin_side_buttons">
-        <!-- Button trigger modal edit -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Editar informações
-        </button>
-
-        <!-- Button trigger modal delete-->
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">
-            Excluir clube
-        </button>
-    </div>
-
-
-</div>
 
 
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar informações de clube</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form th:action="@{/club/{id}(id=${club.ID_club})}" th:method="PUT" >
-                    <div class="mb-3">
-                        <label for="InputName" class="form-label">Nome</label>
-                        <input th:value="${club.name}" name="name" type="text" class="form-control" id="InputName" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="InputStadium" class="form-label">Estádio</label>
-                        <input th:value="${club.stadium}" name="stadium" type="text" class="form-control" id="InputStadium" aria-describedby="emailHelp">
-                    </div>
 
-
-                    <div class="mb-3">
-                        <span>Valor atual de mercado: </span>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">$</span>
-                            <input th:value="${club.marketValue}" name="marketValue"  type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                            <span class="input-group-text">.00</span>
-                        </div>
-                    </div>
-
-
-                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel1">Excluir clube</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Deseja realmente excluir este clube?
-                <p style="font-size: 14px; color: #d42c2c ">Esta ação não poderá ser desfeita.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form th:action="@{/club/{id}(id=${club.ID_club})}" th:method="DELETE">
-                    <input type="hidden" name="_method" th:value="'DELETE'">
-                    <button type="submit"  class="btn btn-danger">Excluir</button>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -166,20 +83,28 @@
 
             <div class="player_pic">
                 <div class="pic_mv  ">
-                    <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
-                    <p  class="h5 text-bg-success p-3 " th:text=" ${mv != null} ? 'MV: $' + ${mv} : 'MV: desconhecido' "></p>
+                    <img src="/images/player.jpg"  width="150px" height="150px" class="img-thumbnail" alt="player image">
+                    <p  class="h5 text-bg-success p-3 " th:text="'MV: $' + ${player.marketValue}"></p>
                 </div>
 
                 <div class="player_pic_info">
-                    <span class="id_span" th:text="'ID: #' + ${club.ID_club}"></span>
-                    <p class="h1" th:text="${club.name}"></p>
-                    <span th:text=" ${club.stadium != ''} ? 'Estádio: ' + ${club.stadium} : 'Estádio: Não possui' " class="card-text"></span>
+                    <span class="id_span" th:text="'ID: #' + ${player.id}"></span>
+                    <p class="h1" th:text="${player.name}"></p>
+                    <span class="card-text" th:text="'Posição: ' + ${player.position}"></span>
+                    <span class="card-text" th:text="'Pé dominante: ' + ${player.foot}"></span>
+                    <span class="card-text" th:text="'Altura: ' + ${player.height} + 'm'"> </span>
+                    <span class="card-text" th:text="'Dt. nascimento: ' +${player.birthdate}"></span>
+
                 </div>
             </div>
 
-            <div th:if="${currentLeague}" class="player_club_info">
+            <div class="player_club_info">
                 <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
-                <p th:text="${currentLeague.name}" class="h4"></p>
+                <p class="h4"  th:text=" ${currentClub != null} ? ${currentClub.name} : 'Aposentado'"></p>
+                <a class="btn btn-primary" th:href="@{'/player/transfer/' + ${player.id}}" role="button">Transferir</a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">
+                    Aposentar
+                </button>
             </div>
 
         </div>
@@ -199,25 +124,29 @@
 
 <div class="section tb_sec">
     <div class="tabela">
-        <h2>Equipe</h2>
+        <h2>Histórico de transferências</h2>
         <table class="table table-striped table-hover">
 
             <thead>
             <tr>
                 <th scope="col">Jogador</th>
-                <th scope="col">Idade</th>
-                <th scope="col">Posição</th>
-                <th scope="col">Nacionalidade</th>
-                <th scope="col">MV (US$)</th>
+                <th scope="col">Data</th>
+                <th scope="col">Nac.</th>
+                <th style="color: #e81717" scope="col">Saiu de</th>
+                <th style="color: green" scope="col">Entrou em</th>
+                <th scope="col">Taxa (US$)</th>
             </tr>
             </thead>
             <tbody>
-            <tr data-th-each="player : ${team}">
-                <th><a data-th-text="${player.name}" th:href="@{'/player/' + ${player.id}}"></a></th>
-                <th data-th-text="${player.birthdate}"></th>
-                <th data-th-text="${player.position}"></th>
-                <th data-th-text="${player.nacionality}"></th>
-                <th data-th-text="${player.marketValue}"></th>
+            <tr data-th-each="transfer : ${transfers}">
+                <th><a data-th-text="${transfer.player.name}" th:href="@{'/player/' + ${transfer.player.id}}"></a></th>
+                <th data-th-text="${transfer.date}"></th>
+                <th data-th-text="${transfer.player.nacionality}"></th>
+                <th th:if="${transfer.left != null}"><a data-th-text="${transfer.left.name}" th:href="@{'/club/' + ${transfer.left.ID_club}}"></a></th>
+                <th th:unless="${transfer.left != null}">Sem clube</th>
+                <th th:if="${transfer.join != null}"><a data-th-text="${transfer.join.name}" th:href="@{'/club/' + ${transfer.join.ID_club}}"></a></th>
+                <th th:unless="${transfer.join != null}">Sem clube</th>
+                <th data-th-text="${transfer.fee}"></th>
             </tr>
             </tbody>
         </table>

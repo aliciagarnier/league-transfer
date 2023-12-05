@@ -42,3 +42,13 @@ div.mvp_card{
     border-color: rgba(253, 184, 30, 0.83);
     box-shadow: 0 0 7px 5px rgb(199 169 102 / 28%);
 }
+
+div.match_section{
+    display: flex;
+    justify-content: center;
+}
+
+div.match_box{
+    width:1345px;
+    max-width: 1345px;
+}
