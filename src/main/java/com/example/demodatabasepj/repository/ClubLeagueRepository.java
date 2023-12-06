@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,4 +24,8 @@ public interface ClubLeagueRepository  extends JpaRepository<ClubLeague, ClubLea
 
     @Query("SELECT cl.league FROM ClubLeague cl WHERE YEAR(cl.id.date) = YEAR(CURRENT DATE) AND cl.club.ID_club = ?1")
     Optional<League> findClubCurrentLeague(UUID club_id);
+
+
+    @Query("SELECT SUM(cl.club.marketValue) FROM ClubLeague cl WHERE cl.league.id = ?1 AND YEAR(cl.id.date) = YEAR(CURRENT DATE)")
+    BigDecimal getLeagueMV(UUID league_id);
 }

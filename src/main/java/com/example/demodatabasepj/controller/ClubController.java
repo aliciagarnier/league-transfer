@@ -103,12 +103,12 @@ public class ClubController {
         }
 
         Optional<League> currentLeague = clubLeagueService.findClubCurrentLeague(id);
-        BigDecimal currentMV = service.getClubCurrentMV(id);
+        //BigDecimal currentMV = service.getClubCurrentMV(id);
 
         ModelAndView mv = new ModelAndView("clubProfile");
         mv.addObject("club", club.get());
         mv.addObject("team", currentTeam);
-        mv.addObject("mv", currentMV);
+        //mv.addObject("mv", currentMV); se for derivado
         currentLeague.ifPresent(league -> mv.addObject("currentLeague", league));
 
        return mv;

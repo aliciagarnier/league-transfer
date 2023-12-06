@@ -1,14 +1,16 @@
 package com.example.demodatabasepj.service;
 
 
+import com.example.demodatabasepj.dtos.MatchGoalRecordDTO;
 import com.example.demodatabasepj.dtos.MatchRecordDTO;
 import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 import com.example.demodatabasepj.exception.league.LeagueDoesNotExistsException;
 import com.example.demodatabasepj.exception.match.InvalidMatchDateException;
 import com.example.demodatabasepj.exception.match.InvalidScoreException;
-import com.example.demodatabasepj.models.Club;
-import com.example.demodatabasepj.models.Match;
+import com.example.demodatabasepj.models.*;
 import com.example.demodatabasepj.repository.MatchRepository;
+import com.example.demodatabasepj.repository.PlayerClubRepository;
+import com.example.demodatabasepj.repository.PlayerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class MatchService {
     private final LeagueService leagueService;
 
     private final ClubService clubService;
+    private final PlayerClubRepository playerClubRepository;
+
 
     public Match addMatch (MatchRecordDTO matchRecordDTO) {
 
@@ -90,5 +94,10 @@ public class MatchService {
 
     public List<Match> getAllLatestMatches(){
         return repository.getMatchByDate();
+    }
+
+
+    public List<Player> getMatchPlayers(UUID clubHost_id, UUID clubGuest_id){
+        return playerClubRepository.findAllByTwoClubsAndDate_outNull(clubHost_id, clubGuest_id);
     }
 }

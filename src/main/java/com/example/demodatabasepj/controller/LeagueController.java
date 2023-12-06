@@ -25,6 +25,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -98,11 +99,13 @@ public class LeagueController {
 
         List<Club> leagueCurrentClubs = clubLeagueService.findCurrentSquadClub(id);
         List<Match> recentMatches = matchService.getLatestMatchesFromLeague(id);
+        BigDecimal currentMV = clubLeagueService.getLeagueCurrentMV(id);
 
         ModelAndView mv = new ModelAndView("leagueProfile");
         mv.addObject("league", league.get());
         mv.addObject("teams", leagueCurrentClubs);
         mv.addObject("matches", recentMatches);
+        mv.addObject("currentMV", currentMV);
         return mv;
     }
 
@@ -116,6 +119,25 @@ public class LeagueController {
         mv.addObject("leagues", page.getContent());
         mv.addObject("leagueCount", leagueService.countLeagueByName(keyword));
         mv.addObject("currentPage", 1);
+        mv.addObject("totalPages", page.getTotalPages());
+        mv.addObject("sortField", "marketValue");
+        mv.addObject("sortDir", "desc");
+        mv.addObject("region", region);
+        //return ResponseEntity.status(HttpStatus.OK).body(leagueService.getAllLeagues());
+        return mv;
+    }
+
+    @GetMapping("/league/page/{pageNumber}")
+    public ModelAndView getAllLeaguePage(@Param("keyword") String keyword, @Param("region") String region,
+                                         @PathVariable("pageNumber") int currentPage){
+        ModelAndView mv =  new ModelAndView("league");
+        Page<League> page = leagueService.getAllLeaguesByNameAndRegion(keyword,
+                currentPage, "marketValue", "desc", region);
+
+
+        mv.addObject("leagues", page.getContent());
+        mv.addObject("leagueCount", leagueService.countLeagueByName(keyword));
+        mv.addObject("currentPage", currentPage);
         mv.addObject("totalPages", page.getTotalPages());
         mv.addObject("sortField", "marketValue");
         mv.addObject("sortDir", "desc");

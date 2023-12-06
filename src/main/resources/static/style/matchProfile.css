@@ -1,0 +1,33 @@
+div.scoreboard{
+    font-size: 100px;
+    font-weight: bolder;
+    display: block;
+}
+
+div.player_header{
+    justify-content: space-around;
+}
+
+div.teams_x {
+    display: grid;
+    justify-items: center;
+}
+
+div.match_data{
+    display: grid;
+    justify-items: center;
+}
+
+
+a.team_name{
+    text-decoration: none;
+    font-size: 30px;
+}
+
+span.id_span{
+    font-size: 10px;
+}
+
+div.section_goals{
+    margin-top: 1rem;
+}

@@ -39,15 +39,32 @@ public class TransferController {
         this.clubService = clubService;
     }
 
-    @RequestMapping("/transfer")
+    @GetMapping("/transfer")
     public ModelAndView getAllTransfersWithFilter(@Param("keyword") String keyword){
         ModelAndView mv = new ModelAndView("transfer");
         Page<Transfer> page =  transferService.getAllTransfersWithFilter(keyword, 1,
-                "date", "desc", 20);
+                "date", "desc", 10);
 
         mv.addObject("transfers", page.getContent());
         mv.addObject("transferCount", transferService.countAllTransfersByPlayerNameOrJoinNameOrLeftName(keyword));
         mv.addObject("currentPage", 1);
+        mv.addObject("totalPages", page.getTotalPages());
+        mv.addObject("sortField", "data");
+        mv.addObject("sortDir", "desc");
+
+        return mv;
+    }
+
+    @GetMapping("/transfer/page/{pageNumber}")
+    public ModelAndView getAllTransfersWithFilter(@Param("keyword") String keyword,
+                                                  @PathVariable("pageNumber") int currentPage){
+        ModelAndView mv = new ModelAndView("transfer");
+        Page<Transfer> page =  transferService.getAllTransfersWithFilter(keyword, currentPage,
+                "date", "desc", 10);
+
+        mv.addObject("transfers", page.getContent());
+        mv.addObject("transferCount", transferService.countAllTransfersByPlayerNameOrJoinNameOrLeftName(keyword));
+        mv.addObject("currentPage", currentPage);
         mv.addObject("totalPages", page.getTotalPages());
         mv.addObject("sortField", "data");
         mv.addObject("sortDir", "desc");
