@@ -103,6 +103,12 @@ public class MatchGoalService {
         return matchGoalRepository.getMatchGoalsByMatchId(match_id);
     }
 
+    public int getPlayerTotalGoals(UUID player_id){
+        return matchGoalRepository.countAllGoalsByPlayerId(player_id);
+    }
 
+    public List<Match> getPlayerScoredMatches(UUID player_id){
+        return matchGoalRepository.findMatchesThatThePlayerScored(player_id);
+    }
 
 }

@@ -35,7 +35,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/player">Todos os jogadores</a></li>
-                            <li><a class="dropdown-item" href="#">Jogadores mais valorizados</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -49,7 +48,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/league">Ligas</a></li>
-                            <li><a class="dropdown-item" href="#">Partidas</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -487,6 +485,7 @@
                    <span class="card-text" th:text="'Altura: ' + ${player.height} + 'm'"> </span>
                    <span class="card-text" th:text="'Dt. nascimento: ' +${player.birthdate}"></span>
                    <span class="card-text" th:text="'Idade: ' +${player.getPlayerAge()}"></span>
+                   <a style="font-weight: bolder" th:href="'/player/' + ${player.id + '/match'}" th:if="${goalsCount != null}" class="card-text" th:text="'Gols: ' + ${goalsCount}"></a>
 
 
                </div>

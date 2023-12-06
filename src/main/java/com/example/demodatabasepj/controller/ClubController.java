@@ -9,6 +9,7 @@ import com.example.demodatabasepj.models.League;
 import com.example.demodatabasepj.models.Player;
 import com.example.demodatabasepj.service.ClubLeagueService;
 import com.example.demodatabasepj.service.ClubService;
+import com.example.demodatabasepj.service.MatchService;
 import com.example.demodatabasepj.service.PlayerClubService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class ClubController {
     private final ClubService service;
     private final PlayerClubService playerClubService;
     private final ClubLeagueService clubLeagueService;
+    private final MatchService matchService;
 
 
 
@@ -105,9 +107,15 @@ public class ClubController {
         Optional<League> currentLeague = clubLeagueService.findClubCurrentLeague(id);
         //BigDecimal currentMV = service.getClubCurrentMV(id);
 
+        Double perfAsHost = matchService.getHostPerformance(id);
+        Double perfAsGuest = matchService.getGuestPerformance(id);
+
         ModelAndView mv = new ModelAndView("clubProfile");
         mv.addObject("club", club.get());
         mv.addObject("team", currentTeam);
+        mv.addObject("hostPerf", perfAsHost);
+        mv.addObject("guestPerf", perfAsGuest);
+
         //mv.addObject("mv", currentMV); se for derivado
         currentLeague.ifPresent(league -> mv.addObject("currentLeague", league));
 

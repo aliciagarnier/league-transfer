@@ -34,30 +34,37 @@ public interface PlayerRepository extends JpaRepository<Player, UUID> {
     // Jogadores que nunca realizaram um gol contra
     @Query("SELECT player FROM Player player " +
             "WHERE NOT EXISTS " +
-            "(SELECT matchgoals FROM MatchGoals matchgoals " +
-            " WHERE matchgoals.player = player AND matchgoals.type = 'CONTRA')")
-   public Optional<List<Player>> playersWhoNeverScoredAOwnGoal();
+            "(SELECT matchgoals.player FROM MatchGoals matchgoals " +
+            "WHERE matchgoals.type = 2)")
+   public List<Player> playersWhoNeverScoredAOwnGoal();
+
+    // Quantidade de jogadores que nunca realizaram um gol contra
+    @Query("SELECT COUNT(player) FROM Player player " +
+            "WHERE NOT EXISTS " +
+            "(SELECT matchgoals.player FROM MatchGoals matchgoals " +
+            "WHERE matchgoals.type = 2)")
+    public int totalPlayersWhoNeverScoredAOwnGoal();
 
 
-    // Obter jogadores pela idade (Se eu estou ordenando a data aqui, aqui serão os mais novos?)
+    // Obter jogadores pela idade
     @Query("SELECT player FROM Player player ORDER BY player.birthdate DESC") //
      public List<Player> playerSortedByDescBirthdate();
 
-    // Obter jogadores pela idade (mais velhos?)
+    // Obter jogadores pela idade
     @Query("SELECT player FROM Player player ORDER BY player.birthdate ASC")
     public List<Player> playerSortedByAscBirthdate();
 
 
-    // Listagem dos jogadores com base no número de gols.
+    // Listagem dos jogadores com base no número de gols, TOP 10.
     @Query("SELECT matchgoals.player FROM MatchGoals matchgoals JOIN Player player ON matchgoals.player.id = player.id " +
-            "GROUP BY player.id ORDER BY COUNT(matchgoals.player.id) DESC")
+            "GROUP BY player.id ORDER BY COUNT(matchgoals.player.id) DESC LIMIT 10")
     public List<Player> findPlayersWhoScoreMostGoals();
 
 
     // Jogadores que mais trocaram de clube(realizaram/participaram de mais transferências)
     @Query("SELECT transfer.player FROM Transfer transfer JOIN Player player ON player.id = transfer.player.id " +
-            "GROUP BY player.id ORDER BY COUNT(transfer.player.id) DESC")
-     public List<Player> findMostTransferredPlayers();
+            "GROUP BY player.id ORDER BY COUNT(transfer.player.id) DESC LIMIT 10")
+     public List<Player> findMostTransferedPlayers();
 
 
     // Jogadores que possuem alguma transferência com valor superior a alguma quantia especificada
