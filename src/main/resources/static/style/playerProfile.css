@@ -68,3 +68,11 @@ div.tb_sec{
 div.tabela h2{
     margin-bottom: 1rem;
 }
+
+div.misc_data{
+    margin-top: .5rem;
+}
+
+div.perf{
+    display: grid;
+}

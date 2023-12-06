@@ -35,7 +35,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/player">Todos os jogadores</a></li>
-                            <li><a class="dropdown-item" href="#">Jogadores mais valorizados</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -49,7 +48,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/league">Ligas</a></li>
-                            <li><a class="dropdown-item" href="#">Partidas</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -449,75 +447,16 @@
 
     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Filtre jogadores</h5>
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Navegue por informações diversas</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
 
             <div class="filter">
 
-                <div class="filter_field">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Clube</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
-
-                <div class="filter_field">
-                    <label for="customRange3" class="form-label">Idade</label>
-                    <input type="range" class="form-range" min="10" max="80" step="1" id="customRange3">
-                </div>
-
-                <div class="filter_field">
-                    <label for="customRange1" class="form-label">Altura</label>
-                    <input type="range" class="form-range" id="customRange1">
-                </div>
-
-                <div class="filter_field">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Posicao</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
-                <div class="filter_field">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                            Pe direito
-                        </label>
-                    </div>
-                </div>
-
-                <div class="filter_field">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                            Pe esquerdo
-                        </label>
-                    </div>
-                </div>
-
-                <div class="filter_field">
-                    <label for="customRange4" class="form-label">Market Value</label>
-                    <input type="range" class="form-range" id="customRange4">
-                </div>
-
-
-                <div class="filter_field">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Cidadania</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-
+                <a th:href="'/player/never_own_scored'" style="font-weight: bold" class="btn btn-outline-success">Jogadores que nunca realizaram gol contra</a>
+                <a th:href="'/player/goals_score'" style="font-weight: bold" class="btn btn-outline-success">Jogadores com mais saldo de gols</a>
+                <a th:href="'/player/top_transferred'" style="font-weight: bold" class="btn btn-outline-success">Jogadores que realizaram mais transferências</a>
 
             </div>
 
@@ -543,7 +482,7 @@
                 <span class="card-text" th:text="'Altura: ' + ${player.height} + 'm'"> </span>
                 <span class="card-text" th:text="'Valor de mercado: $' + ${player.marketValue}"></span>
                 <span class="card-text" th:text="'Nacionalidade: ' + ${player.nacionality}"></span>
-                <a th:href="@{'player/' + ${player.id}}" class="btn btn-primary">Detalhes</a>
+                <a th:href="@{'/player/' + ${player.id}}" class="btn btn-primary">Detalhes</a>
             </div>
          </div>
 

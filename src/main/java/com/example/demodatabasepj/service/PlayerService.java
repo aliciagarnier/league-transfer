@@ -112,4 +112,23 @@ public class PlayerService {
 
         return playerRepository.findPlayerWithMaxMarketValue();
     }
+
+    public List<Player> playersThatNeverScoredOwnGoal(){
+        return playerRepository.playersWhoNeverScoredAOwnGoal();
+    }
+
+
+    public int totalPlayersThatNeverScoredOwnGoal(){
+        return playerRepository.totalPlayersWhoNeverScoredAOwnGoal();
+    }
+
+    public List<Player> topScoreMakers(){
+        return playerRepository.findPlayersWhoScoreMostGoals();
+    }
+
+    public List<Player> topTransferedPlayers(){
+        return playerRepository.findMostTransferedPlayers();
+    }
+
+
 }

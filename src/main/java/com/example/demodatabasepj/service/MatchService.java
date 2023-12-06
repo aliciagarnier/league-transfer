@@ -100,4 +100,13 @@ public class MatchService {
     public List<Player> getMatchPlayers(UUID clubHost_id, UUID clubGuest_id){
         return playerClubRepository.findAllByTwoClubsAndDate_outNull(clubHost_id, clubGuest_id);
     }
+
+
+    public Double getHostPerformance(UUID club){
+        return repository.clubPerformanceAsHostTeam(club);
+    }
+
+    public Double getGuestPerformance(UUID club){
+        return repository.clubPerformanceAsGuestTeam(club);
+    }
 }

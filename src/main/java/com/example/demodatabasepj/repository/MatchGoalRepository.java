@@ -30,5 +30,7 @@ public interface MatchGoalRepository extends JpaRepository<MatchGoals, UUID> {
             " WHERE matchgoals.type <> 'CONTRA')")
     Optional<List<Player>> playersWhoScoredAnyGoal();
 
-
+    //Saldo positivo de gols do jogador
+    @Query("SELECT COUNT(mg) FROM MatchGoals mg WHERE mg.player.id = ?1 AND mg.type != 2")
+    int countAllGoalsByPlayerId(UUID player_id);
 }

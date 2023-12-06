@@ -36,7 +36,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/player">Todos os jogadores</a></li>
-                            <li><a class="dropdown-item" href="#">Jogadores mais valorizados</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -50,7 +49,6 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/league">Ligas</a></li>
-                            <li><a class="dropdown-item" href="#">Partidas</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/club">Clubes</a></li>
                         </ul>
@@ -170,6 +168,7 @@
                     <p  class="h5 text-bg-success p-3 " th:text=" ${club.marketValue != null} ? 'MV: $' + ${club.marketValue} : 'MV: desconhecido' "></p>
                 </div>
 
+
                 <div class="player_pic_info">
                     <span class="id_span" th:text="'ID: #' + ${club.ID_club}"></span>
                     <p class="h1" th:text="${club.name}"></p>
@@ -196,6 +195,16 @@
 
         </div>
 
+    </div>
+
+</div>
+
+
+<div class="section misc_data">
+    <div class="perf img-thumbnail">
+        <span style="font-weight: bolder">Desempenho (média de gols)</span>
+        <span th:text="${hostPerf != null} ? 'Em casa: ' + ${hostPerf} : 'Em casa: 0' "></span>
+        <span th:text="${guestPerf != null} ? 'Como convidado: ' + ${guestPerf} : 'Como convidado: 0' "></span>
     </div>
 
 </div>

@@ -75,3 +75,7 @@ div.sort_opt form{
     margin-right: 5rem;
 }
 
+div.filter {
+    display: grid;
+    gap: 1rem;
+}
