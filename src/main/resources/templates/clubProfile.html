@@ -18,7 +18,7 @@
 <div class="header">
     <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="/images/logo.png" alt="Logo" width="200" height="200" class="d-inline-block align-text-top">
 
             </a>
@@ -45,7 +45,7 @@
                         <a class="nav-link" href="/transfer">Transferências</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="/league" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Ligas
                         </a>
                         <ul class="dropdown-menu">
@@ -167,7 +167,7 @@
             <div class="player_pic">
                 <div class="pic_mv  ">
                     <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
-                    <p  class="h5 text-bg-success p-3 " th:text=" ${mv != null} ? 'MV: $' + ${mv} : 'MV: desconhecido' "></p>
+                    <p  class="h5 text-bg-success p-3 " th:text=" ${club.marketValue != null} ? 'MV: $' + ${club.marketValue} : 'MV: desconhecido' "></p>
                 </div>
 
                 <div class="player_pic_info">
@@ -178,7 +178,10 @@
             </div>
 
             <div th:if="${currentLeague}" class="player_club_info">
-                <img src="/images/brazao.png"  width="150px" height="150px" class="img-thumbnail" alt="player image">
+                <a th:href="@{'/league/' + ${currentLeague.id}}">
+                    <img src="/images/brazao.png"   width="150px" height="150px" class="img-thumbnail" alt="player image">
+                </a>
+
                 <p th:text="${currentLeague.name}" class="h4"></p>
             </div>
 
@@ -214,7 +217,7 @@
             <tbody>
             <tr data-th-each="player : ${team}">
                 <th><a data-th-text="${player.name}" th:href="@{'/player/' + ${player.id}}"></a></th>
-                <th data-th-text="${player.birthdate}"></th>
+                <th data-th-text="${player.getPlayerAge()}"></th>
                 <th data-th-text="${player.position}"></th>
                 <th data-th-text="${player.nacionality}"></th>
                 <th data-th-text="${player.marketValue}"></th>

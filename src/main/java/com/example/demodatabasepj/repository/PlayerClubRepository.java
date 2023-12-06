@@ -34,4 +34,8 @@ public interface PlayerClubRepository extends JpaRepository<PlayerClub, PlayerCl
 
     @Query("SELECT pc.player FROM PlayerClub pc WHERE pc.club.ID_club = ?1 AND pc.date_out IS NULL")
     List<Player> findAllByClubAndDate_outNull(UUID club_id);
+
+    //encontrar jogadores da partida
+    @Query("SELECT pc.player FROM PlayerClub pc WHERE pc.club.ID_club = ?1 OR pc.club.ID_club = ?2 AND pc.date_out IS NULL")
+    List<Player> findAllByTwoClubsAndDate_outNull(UUID clubHost_id, UUID clubGuest_id);
 }

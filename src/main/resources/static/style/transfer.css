@@ -2,3 +2,10 @@ div.transfer_opt{
     display: grid;
     justify-content: center;
 }
+
+
+div.nav_section{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}

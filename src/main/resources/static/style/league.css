@@ -27,3 +27,9 @@ div.lower_opts{
     display: grid;
     gap: 10px;
 }
+
+div.nav_section{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}

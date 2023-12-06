@@ -13,6 +13,7 @@ import com.example.demodatabasepj.repository.LeagueRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,10 @@ public class ClubLeagueService {
 
     public Optional<League> findClubCurrentLeague(UUID club_id){
         return clubLeagueRepository.findClubCurrentLeague(club_id);
+    }
+
+    public BigDecimal getLeagueCurrentMV(UUID league_id){
+        return clubLeagueRepository.getLeagueMV(league_id);
     }
 
 
