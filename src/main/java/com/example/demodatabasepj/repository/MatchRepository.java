@@ -45,4 +45,17 @@ public interface MatchRepository extends JpaRepository<Match, UUID> {
     @Modifying
     @Query("UPDATE Match match SET match.guestTeamGoals = match.guestTeamGoals - 1 WHERE match.id = ?1")
     void updateGuestTeamGoalsRevoke(UUID match);
+
+
+
+
+    // Desempenho médio de um clube dentro e fora de casa (poderia ser dos clubes em geral, por exemplo). -> Colocar na página do clube, por exemplo
+
+    // Desempenho em casa
+    @Query("SELECT AVG(match.hostTeamGoals) FROM Match match WHERE match.hostTeam.ID_club = ?1")
+    public Double clubPerformanceAsHostTeam(UUID club);
+
+    // Desempenho fora de casa.
+    @Query("SELECT AVG(match.guestTeamGoals) FROM Match match WHERE match.guestTeam.ID_club = ?1")
+    public Double clubPerformanceAsGuestTeam(UUID club);
 }
