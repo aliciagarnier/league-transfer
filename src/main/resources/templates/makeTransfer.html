@@ -79,7 +79,7 @@
                         <h5 class="card-title" th:text="${player.name}"></h5>
                         <span th:text="${player.position}"></span>
                         <span th:text="${player.nacionality}"></span>
-                        <span th:text="'Idade: ' + ${player.birthdate}"></span>
+                        <span th:text="'Idade: ' + ${player.getPlayerAge()}"></span>
                         <span  class="mv" th:text="'MV: $' + ${player.marketValue}"></span>
 
                     </div>
