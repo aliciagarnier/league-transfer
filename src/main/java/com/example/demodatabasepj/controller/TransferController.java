@@ -109,7 +109,7 @@ public class TransferController {
             return new ModelAndView("redirect:/transfer/error");
         }
         Transfer new_transfer = transferService.addTransfer(transferRecordDTO);
-        return new ModelAndView("redirect:/transfer/" + new_transfer.getId());
+        return new ModelAndView("redirect:/transfer");
     }
 
     @PostMapping("/player/transfer/{player_id}")

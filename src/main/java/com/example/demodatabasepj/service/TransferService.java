@@ -35,11 +35,10 @@ import java.util.UUID;
 @Service
 public class TransferService {
 
-    // Provavelmente a gente vai poder delegar essas ações pra outra classe, caso cresça demais.
 
     private final TransferRepository transferRepository;
     private final ClubRepository clubRepository;
-    private final PlayerService playerRepository;
+    private final PlayerRepository playerRepository;
     private final PlayerClubRepository playerClubRepository;
 
     // Reviewing
@@ -88,11 +87,7 @@ public class TransferService {
         }
 
 
-            //Checar se data recebida eh maior que Localdate.now ou menor que data da ultima transferencia.
-            //Isso daqui vai garantir que a transferencia ocorra apenas depois da ultima transferencia realizada (???)
-            // e nunca depois do dia atual, ou seja, nao consigo fazer transferencia no passado(em relacao a ultima transferencia)
-            // nem no futuro.
-            //desse modo as transferencias devem ser inseridas na ordem que ocorreram. (??)
+
 
             LocalDate received_date = transferRecordDTO.date();
             Optional<LocalDate> last_transfer_date = transferRepository.findLastPlayerTransfer(player_id); //buscar data da ultima transf do jogador
@@ -135,7 +130,7 @@ public class TransferService {
             }
 
 
-                //Se existir clube de saida > atualizar date_out para data da transferencia > se nao > whatever
+                //Se existir clube de saida > atualizar date_out para data da transferencia
                 //Buscando tupla em PlayerClub relation > clube de saida >
                 //Buscar a tupla que possui clube_out == dto.club_out, jogador == dto.player e date_out == null
 
