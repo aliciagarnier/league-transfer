@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +46,10 @@ public class PlayerService {
         }
 
         if (!Objects.isNull(birthdate) && birthdate.isAfter(LocalDate.now())) {
+            throw new InvalidBirthDateException("Invalid birthdate");
+        }
+
+        if (!Objects.isNull(birthdate) && Period.between(birthdate, LocalDate.now()).getYears() < 16) {
             throw new InvalidBirthDateException("Invalid birthdate");
         }
 
