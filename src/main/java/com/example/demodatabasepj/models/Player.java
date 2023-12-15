@@ -79,6 +79,16 @@ public class Player implements Serializable {
     @OneToMany(mappedBy = "player")
     private Set<MatchGoals> goals;
 
+    public Player(UUID playerId, String name, LocalDate birthdate, Foot foot,
+                  double height, BigDecimal marketValue, String nationality) {
+        this.id = playerId;
+        this.name = name;
+        this.birthdate = birthdate;
+        this.foot = foot;
+        this.marketValue = marketValue;
+        this.nacionality = nationality;
+    }
+
 
     public int getPlayerAge(){
         if (Objects.isNull(this.birthdate)){

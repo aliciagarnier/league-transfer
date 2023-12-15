@@ -35,6 +35,8 @@ public class Match implements Serializable {
         this.date = date;
     }
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
