@@ -23,6 +23,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -245,6 +247,81 @@ public class MatchGoalServiceTest {
         Assertions.assertEquals(3, numberOfGoals);
     }
 
+    @Test
+    @DisplayName("#getCurrentMatchGoals > when the match id is invalid > throw error " )
+    public void getCurrentMatchGoalsWhenMatchIDInvalidThrowError(){
+        Mockito.when(matchGoalRepository.getMatchGoalsByMatchId(null)).thenThrow(IllegalArgumentException.class);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> service.getCurrentMatchGoals(null));
+    }
+
+    @Test
+    @DisplayName("#getCurrentMatchGoals > when the match is valid > return list of goals" )
+    public void getCurrentMatchGoalsWhenMatchIsValidReturnListOfGoals(){
+        UUID match_id = UUID.randomUUID();
+        UUID club_host_id = UUID.randomUUID();
+        UUID club_guest_id = UUID.randomUUID();
+        UUID goal_id = UUID.randomUUID();
+        UUID player_id = UUID.randomUUID();
+        Player player = new Player(
+                player_id, "Player",
+                LocalDate.of(1999, 1, 1),
+                Foot.RIGHT,
+                1.75,
+                new BigDecimal(0),
+                "Brazil"
+        );
 
 
+        Club HostClub = new Club(club_host_id, "Club1", "Stadium1", new BigDecimal(0));
+        Club GuestClub = new Club(club_guest_id, "Club2", "Stadium2", new BigDecimal(0));
+        Match match = new Match(match_id, new League(), HostClub, GuestClub,
+                0, 0, LocalDate.now(), null);
+        Mockito.when(matchGoalRepository.getMatchGoalsByMatchId(match_id)).thenReturn(new ArrayList<>(){
+            {
+                add(new MatchGoals(goal_id, match, player, HostClub, GoalType.NORMAL));
+            }
+        });
+
+        List<MatchGoals> goals = service.getCurrentMatchGoals(match_id);
+        Assertions.assertEquals(1, goals.size());
+    }
+
+
+    @Test
+    @DisplayName("#getPlayerTotalGoals > when the player id is invalid > throw error")
+    public void getPlayerTotalGoalsWhenPlayerIdInvalidThrowError(){
+        Mockito.when(matchGoalRepository.countAllGoalsByPlayerId(null)).thenThrow(IllegalArgumentException.class);
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> service.getPlayerTotalGoals(null));
+    }
+
+    @Test
+    @DisplayName("#getPlayerTotalGoals > when the player id is valid > return total goals")
+    public void getPlayerTotalGoalsWhenPlayerIdIsValidReturnTotalGoals(){
+        UUID player_id = UUID.randomUUID();
+        Mockito.when(matchGoalRepository.countAllGoalsByPlayerId(player_id)).thenReturn(50);
+        int total = service.getPlayerTotalGoals(player_id);
+        Assertions.assertEquals(50, total);
+    }
+
+    @Test
+    @DisplayName("#getPlayerScoredMatches > when player id is invalid > throw an exception")
+    public void getPlayerScoredMatchesWhenPlayerIdIsInvalidThrowException(){
+        Mockito.when(matchGoalRepository.findMatchesThatThePlayerScored(null)).thenThrow(IllegalArgumentException.class);
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> service.getPlayerScoredMatches(null));
+    }
+
+    @Test
+    @DisplayName("#getPlayerScoredMatches > when player id is valid > return list of scored matches")
+    public void getPlayerScoredMatchesWhenPlayerIdIsValidReturnListOfMatches(){
+        UUID player_id = UUID.randomUUID();
+        Mockito.when(matchGoalRepository.findMatchesThatThePlayerScored(player_id)).thenReturn(new ArrayList<>()
+        {
+            {
+                add(new Match());
+                add(new Match());
+            }
+        });
+        List<Match> matches = service.getPlayerScoredMatches(player_id);
+        Assertions.assertEquals(2, matches.size());
+    }
 }
