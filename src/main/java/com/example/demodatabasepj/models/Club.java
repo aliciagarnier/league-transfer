@@ -28,6 +28,13 @@ public class Club implements Serializable {
         this.marketValue = marketValue;
     }
 
+    public Club(UUID id, String name, String stadium, BigDecimal marketValue){
+        this.name = name;
+        this.stadium = stadium;
+        this.marketValue = marketValue;
+        this.ID_club = id;
+    }
+
     private static final long serialVersionUID = 1L;
 
     @Id

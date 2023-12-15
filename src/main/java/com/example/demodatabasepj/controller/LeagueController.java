@@ -46,11 +46,8 @@ public class LeagueController {
             return new ModelAndView("redirect:/league");
         }
 
-        League leagueModel = new League();
-        BeanUtils.copyProperties(leagueRecordDTO, leagueModel);
-
         try {
-            League new_league = leagueService.addLeague(leagueModel);
+            League new_league = leagueService.addLeague(leagueRecordDTO);
             return new ModelAndView("redirect:/league/"+ new_league.getId());
         } catch (DuplicatedLeagueException e){
             return new ModelAndView("redirect:/league");

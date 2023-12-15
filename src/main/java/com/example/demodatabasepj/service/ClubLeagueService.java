@@ -46,6 +46,8 @@ public class ClubLeagueService {
         //adicionar tupla em clube_league
         Optional<League> league = leagueRepository.findById(clubLeagueDTO.league_id());
         Optional<Club> club = clubRepository.findById(clubLeagueDTO.club_id());
+
+
         if(league.isEmpty() || club.isEmpty()){
             throw new InvalidClubLeagueException("Cannot find club or league"); //decompor em 2 exception
         }

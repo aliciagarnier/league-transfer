@@ -18,8 +18,8 @@ import java.util.UUID;
 @Repository
 public interface PlayerClubRepository extends JpaRepository<PlayerClub, PlayerClubPK> {
 
-    @Query("SELECT pc FROM PlayerClub pc WHERE pc.playerClubPK.player_id = ?1" +
-            " AND pc.playerClubPK.club_id = ?2" +
+    @Query("SELECT pc FROM PlayerClub pc WHERE pc.player.id = ?1" +
+            " AND pc.club.ID_club = ?2" +
             " AND pc.date_out IS NULL")
     Optional<PlayerClub> findPlayerClubByClubAndPlayerAndDate_outNull(UUID player_id, UUID club_id);
 

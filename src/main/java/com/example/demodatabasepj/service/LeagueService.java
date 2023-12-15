@@ -31,14 +31,16 @@ public class LeagueService {
     }
 
 
-    public League addLeague(League league){
+    public League addLeague(LeagueRecordDTO leagueRecordDTO){
 
-        League duplicatedLeague = repository.findLeagueByName(league.getName());
+        League duplicatedLeague = repository.findLeagueByName(leagueRecordDTO.name());
         if(!Objects.isNull(duplicatedLeague)){
             throw new DuplicatedLeagueException("League already exists");
         }
-        repository.save(league);
-        return league;
+        League leagueModel = new League();
+        BeanUtils.copyProperties(leagueRecordDTO, leagueModel);
+        repository.save(leagueModel);
+        return leagueModel;
     }
 
     public void deleteLeague(UUID id){
