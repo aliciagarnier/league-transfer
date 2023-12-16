@@ -7,10 +7,8 @@ import com.example.demodatabasepj.exception.club.ClubDoesNotExistsException;
 
 
 import com.example.demodatabasepj.exception.club.DuplicatedClubException;
-import com.example.demodatabasepj.exception.club.InvalidClubException;
 import com.example.demodatabasepj.models.Club;
 import com.example.demodatabasepj.repository.ClubRepository;
-import com.example.demodatabasepj.service.ClubService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
